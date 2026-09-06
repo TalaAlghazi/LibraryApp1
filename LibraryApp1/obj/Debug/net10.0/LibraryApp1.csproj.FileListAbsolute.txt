@@ -12,3 +12,4 @@ C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\refint\Lib
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.pdb
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.genruntimeconfig.cache
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\ref\LibraryApp1.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.sourcelink.json

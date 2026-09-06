@@ -1,49 +1,11 @@
 {
   "version": 4,
   "targets": {
-    "net10.0": {
-      "LibraryApp1.BusinessLogic/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
-        "dependencies": {
-          "LibraryApp1.DataAccess": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/LibraryApp1.BusinessLogic.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/LibraryApp1.BusinessLogic.dll": {}
-        }
-      },
-      "LibraryApp1.DataAccess/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
-        "compile": {
-          "bin/placeholder/LibraryApp1.DataAccess.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/LibraryApp1.DataAccess.dll": {}
-        }
-      }
-    }
+    "net10.0": {}
   },
-  "libraries": {
-    "LibraryApp1.BusinessLogic/1.0.0": {
-      "type": "project",
-      "path": "../LibraryApp1.BusinessLogic/LibraryApp1.BusinessLogic.csproj",
-      "msbuildProject": "../LibraryApp1.BusinessLogic/LibraryApp1.BusinessLogic.csproj"
-    },
-    "LibraryApp1.DataAccess/1.0.0": {
-      "type": "project",
-      "path": "../Class Library/LibraryApp1.DataAccess.csproj",
-      "msbuildProject": "../Class Library/LibraryApp1.DataAccess.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net10.0": [
-      "LibraryApp1.BusinessLogic >= 1.0.0",
-      "LibraryApp1.DataAccess >= 1.0.0"
-    ]
+    "net10.0": []
   },
   "packageFolders": {
     "C:\\Users\\talas\\.nuget\\packages\\": {},
@@ -52,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\LibraryApp1.csproj",
-      "projectName": "LibraryApp1",
-      "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\LibraryApp1.csproj",
+      "projectUniqueName": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj",
+      "projectName": "LibraryApp1.DataAccess",
+      "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj",
       "packagesPath": "C:\\Users\\talas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\obj\\",
+      "outputPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -77,14 +39,7 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {
-            "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj"
-            },
-            "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj": {
-              "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

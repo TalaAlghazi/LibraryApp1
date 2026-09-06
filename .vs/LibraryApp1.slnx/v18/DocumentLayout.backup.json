@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6FBE759B-841B-4322-8F4B-7E93792FA0FB}|LibraryApp1\\LibraryApp1.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6FBE759B-841B-4322-8F4B-7E93792FA0FB}|LibraryApp1\\LibraryApp1.csproj|solutionrelative:libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA34E481-9F4B-4C30-6B02-648363F9770F}|LibraryApp1\\LibraryApp1.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA34E481-9F4B-4C30-6B02-648363F9770F}|LibraryApp1\\LibraryApp1.csproj|solutionrelative:libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD741120-1645-4DE8-A6DF-1808E66E5823}|Class Library\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\class library\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD741120-1645-4DE8-A6DF-1808E66E5823}|Class Library\\LibraryApp1.DataAccess.csproj|solutionrelative:class library\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD741120-1645-4DE8-A6DF-1808E66E5823}|Class Library\\Class Library.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\class library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD741120-1645-4DE8-A6DF-1808E66E5823}|Class Library\\Class Library.csproj|solutionrelative:class library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,9 +25,13 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 21,
-          "SelectedChildIndex": 0,
+          "DockedHeight": 379,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,14 +40,49 @@
               "RelativeDocumentMoniker": "LibraryApp1\\Program.cs",
               "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\Program.cs",
               "RelativeToolTip": "LibraryApp1\\Program.cs",
-              "ViewState": "AgIAAL8AAAAAAAAAAAAmwNwAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAmwIsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-06T07:36:11.269Z",
+              "WhenOpened": "2026-09-06T11:58:39.294Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\Program.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\Program.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\Program.cs",
+              "RelativeToolTip": "LibraryApp1.BusinessLogic\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T11:51:48.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BookRepository.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\BookRepository.cs",
+              "RelativeDocumentMoniker": "Class Library\\BookRepository.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\BookRepository.cs",
+              "RelativeToolTip": "Class Library\\BookRepository.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAqwCcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T11:47:24.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\Program.cs",
+              "RelativeDocumentMoniker": "Class Library\\Program.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\Program.cs",
+              "RelativeToolTip": "Class Library\\Program.cs",
+              "ViewState": "AgIAAAgAAAAAAEBKrKQ5wAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T11:26:25.438Z",
+              "EditorCaption": ""
             }
           ]
         }

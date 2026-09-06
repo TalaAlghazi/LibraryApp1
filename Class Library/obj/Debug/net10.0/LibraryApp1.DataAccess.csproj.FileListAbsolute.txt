@@ -1,0 +1,5 @@
+C:\Users\talas\source\repos\LibraryApp1\Class Library\obj\Debug\net10.0\LibraryApp1.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\talas\source\repos\LibraryApp1\Class Library\obj\Debug\net10.0\LibraryApp1.DataAccess.AssemblyInfoInputs.cache
+C:\Users\talas\source\repos\LibraryApp1\Class Library\obj\Debug\net10.0\LibraryApp1.DataAccess.AssemblyInfo.cs
+C:\Users\talas\source\repos\LibraryApp1\Class Library\obj\Debug\net10.0\LibraryApp1.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\talas\source\repos\LibraryApp1\Class Library\obj\Debug\net10.0\LibraryApp1.DataAccess.sourcelink.json

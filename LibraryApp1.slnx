@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="Class Library/LibraryApp1.DataAccess.csproj" Id="bd741120-1645-4de8-a6df-1808e66e5823" />
   <Project Path="LibraryApp1.BusinessLogic/LibraryApp1.BusinessLogic.csproj" Id="5beab2a9-1f17-4386-8d24-17f9907c330f" />
+  <Project Path="LibraryApp1.DataAccess/LibraryApp1.DataAccess.csproj" />
   <Project Path="LibraryApp1/LibraryApp1.csproj" />
 </Solution>

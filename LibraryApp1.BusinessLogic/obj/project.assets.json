@@ -61,6 +61,9 @@
           "projectReferences": {
             "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj": {
               "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj"
+            },
+            "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj"
             }
           }
         }

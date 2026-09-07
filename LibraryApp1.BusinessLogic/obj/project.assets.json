@@ -17,8 +17,8 @@
   "libraries": {
     "LibraryApp1.DataAccess/1.0.0": {
       "type": "project",
-      "path": "../Class Library/LibraryApp1.DataAccess.csproj",
-      "msbuildProject": "../Class Library/LibraryApp1.DataAccess.csproj"
+      "path": "../LibraryApp1.DataAccess/LibraryApp1.DataAccess.csproj",
+      "msbuildProject": "../LibraryApp1.DataAccess/LibraryApp1.DataAccess.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -59,9 +59,6 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\LibraryApp1.DataAccess.csproj"
-            },
             "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj": {
               "projectPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj"
             }

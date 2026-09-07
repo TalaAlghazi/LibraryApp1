@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Class Library\LibraryApp1.DataAccess.csproj" />
     <ProjectReference Include="..\LibraryApp1.DataAccess\LibraryApp1.DataAccess.csproj" />
   </ItemGroup>
 

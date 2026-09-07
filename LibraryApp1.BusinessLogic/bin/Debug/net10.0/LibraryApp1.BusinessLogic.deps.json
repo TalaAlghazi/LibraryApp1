@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "LibraryApp1.BusinessLogic/1.0.0": {
+        "dependencies": {
+          "LibraryApp1.DataAccess": "1.0.0"
+        },
+        "runtime": {
+          "LibraryApp1.BusinessLogic.dll": {}
+        }
+      },
+      "LibraryApp1.DataAccess/1.0.0": {
+        "runtime": {
+          "LibraryApp1.DataAccess.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LibraryApp1.BusinessLogic/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LibraryApp1.DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

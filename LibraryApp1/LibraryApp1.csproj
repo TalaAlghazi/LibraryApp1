@@ -8,13 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="C:\Users\talas\Documents\Program.cs" Link="Program.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Class Library\LibraryApp1.DataAccess.csproj" />
-    <ProjectReference Include="..\LibraryApp1.BusinessLogic\LibraryApp1.BusinessLogic.csproj" />
-    <ProjectReference Include="..\LibraryApp1.DataAccess\LibraryApp1.DataAccess.csproj" />
+    <Compile Include="C:\Users\talas\Desktop\Program LibraryApp1.cs" Link="Program LibraryApp1.cs" />
   </ItemGroup>
 
 </Project>

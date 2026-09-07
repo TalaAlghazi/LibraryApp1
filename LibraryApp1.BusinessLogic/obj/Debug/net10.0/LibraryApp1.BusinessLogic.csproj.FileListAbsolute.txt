@@ -1,5 +1,16 @@
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\bin\Debug\net10.0\LibraryApp1.BusinessLogic.deps.json
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\bin\Debug\net10.0\LibraryApp1.BusinessLogic.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\bin\Debug\net10.0\LibraryApp1.BusinessLogic.pdb
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\bin\Debug\net10.0\LibraryApp1.DataAccess.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\bin\Debug\net10.0\LibraryApp1.DataAccess.pdb
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.csproj.AssemblyReference.cache
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.AssemblyInfoInputs.cache
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.AssemblyInfo.cs
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.csproj.CoreCompileInputs.cache
 C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.sourcelink.json
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryA.C7585593.Up2Date
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\refint\LibraryApp1.BusinessLogic.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\LibraryApp1.BusinessLogic.pdb
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1.BusinessLogic\obj\Debug\net10.0\ref\LibraryApp1.BusinessLogic.dll

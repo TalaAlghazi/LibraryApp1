@@ -1,0 +1,15 @@
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\bin\Debug\net10.0\LibraryApp1.exe
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\bin\Debug\net10.0\LibraryApp1.deps.json
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\bin\Debug\net10.0\LibraryApp1.runtimeconfig.json
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\bin\Debug\net10.0\LibraryApp1.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\bin\Debug\net10.0\LibraryApp1.pdb
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.AssemblyInfoInputs.cache
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.AssemblyInfo.cs
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.csproj.CoreCompileInputs.cache
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\refint\LibraryApp1.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.pdb
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.genruntimeconfig.cache
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\ref\LibraryApp1.dll
+C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.sourcelink.json

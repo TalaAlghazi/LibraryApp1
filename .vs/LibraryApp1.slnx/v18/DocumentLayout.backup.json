@@ -3,20 +3,64 @@
   "WorkspaceRootPath": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\libraryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\libraryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA34E481-9F4B-4C30-6B02-648363F9770F}|LibraryApp1\\LibraryApp1.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA34E481-9F4B-4C30-6B02-648363F9770F}|LibraryApp1\\LibraryApp1.csproj|solutionrelative:libraryapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\printedbook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\printedbook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Class Library\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\ebook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\ebook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|solutionrelative:libraryapp1.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\ilibraryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\ilibraryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\libraryapp1.businesslogic.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\libraryapp1.businesslogic.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\filebookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\filebookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\ibookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\ibookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.console\\libraryapp1.console.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|solutionrelative:libraryapp1.console\\libraryapp1.console.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.businesslogic\\libraryapp1.businesslogic.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5BEAB2A9-1F17-4386-8D24-17F9907C330F}|LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj|solutionrelative:libraryapp1.businesslogic\\libraryapp1.businesslogic.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.dataaccess\\libraryapp1.dataaccess.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{3B605DDF-6BFD-9BFA-A2E7-D26267F1830D}|LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj|solutionrelative:libraryapp1.dataaccess\\libraryapp1.dataaccess.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|c:\\users\\talas\\source\\repos\\libraryapp1\\libraryapp1.console\\libraryapp1.console.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{76C73451-0758-C1C7-FB67-75C364C35A9E}|LibraryApp1.Console\\LibraryApp1.Console.csproj|solutionrelative:libraryapp1.console\\libraryapp1.console.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\BookRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Class Library\\BookRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Class Library\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +70,11 @@
       "DocumentGroups": [
         {
           "DockedHeight": 379,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 13,
               "Title": "BookRepository.cs",
               "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\BookRepository.cs",
               "RelativeDocumentMoniker": "Class Library\\BookRepository.cs",
@@ -41,38 +85,177 @@
               "IsPinned": true
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\Program.cs",
-              "RelativeDocumentMoniker": "LibraryApp1\\Program.cs",
-              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1\\Program.cs",
-              "RelativeToolTip": "LibraryApp1\\Program.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAmwIsAAAABAAAAAAAAAA==",
+              "Title": "PrintedBook.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\PrintedBook.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\PrintedBook.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\PrintedBook.cs",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\PrintedBook.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-06T11:58:39.294Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\Program.cs",
-              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\Program.cs",
-              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\Program.cs",
-              "RelativeToolTip": "LibraryApp1.BusinessLogic\\Program.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAA1wAwAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-06T11:51:48.154Z",
+              "WhenOpened": "2026-09-07T14:02:52.806Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "EBook.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\EBook.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\EBook.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\EBook.cs*",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\EBook.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T14:00:14.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\Program.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.Console\\Program.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\Program.cs",
+              "RelativeToolTip": "LibraryApp1.Console\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T13:53:56.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ILibraryService.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\ILibraryService.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\ILibraryService.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\ILibraryService.cs",
+              "RelativeToolTip": "LibraryApp1.BusinessLogic\\ILibraryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T13:49:27.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LibraryService.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryService.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\LibraryService.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryService.cs*",
+              "RelativeToolTip": "LibraryApp1.BusinessLogic\\LibraryService.cs*",
+              "ViewState": "AgIAAD4AAAAAAADZViEwwFMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T09:05:56.259Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Book.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\Book.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\Book.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\Book.cs*",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\Book.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T09:03:27.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LibraryApp1.BusinessLogic.csproj",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "RelativeToolTip": "LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-07T08:02:46.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FileBookRepository.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\FileBookRepository.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\FileBookRepository.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\FileBookRepository.cs",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\FileBookRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T08:03:47.97Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IBookRepository.cs",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\IBookRepository.cs",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\IBookRepository.cs",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\IBookRepository.cs",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\IBookRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T08:44:01.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LibraryApp1.Console",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "RelativeDocumentMoniker": "LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "RelativeToolTip": "LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-07T13:18:12.187Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LibraryApp1.DataAccess",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj",
+              "RelativeDocumentMoniker": "LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj",
+              "RelativeToolTip": "LibraryApp1.DataAccess\\LibraryApp1.DataAccess.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-07T09:18:50.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LibraryApp1.BusinessLogic",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "RelativeDocumentMoniker": "LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "RelativeToolTip": "LibraryApp1.BusinessLogic\\LibraryApp1.BusinessLogic.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-07T08:02:55.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LibraryApp1.Console.csproj",
+              "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "RelativeDocumentMoniker": "LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "ToolTip": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "RelativeToolTip": "LibraryApp1.Console\\LibraryApp1.Console.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-07T12:49:10.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\talas\\source\\repos\\LibraryApp1\\Class Library\\Program.cs",
               "RelativeDocumentMoniker": "Class Library\\Program.cs",

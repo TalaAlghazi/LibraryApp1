@@ -24,38 +24,39 @@ class Program
 
             string choice = Console.ReadLine();
 
-            if (choice == "1")
-                DisplayBooks();
-            else if (choice == "2")
-                DisplayReservedBooks();
-            else if (choice == "3")
-                ReserveBook();
-            else if (choice == "4")
-                ReturnBook();
-            else if (choice == "5")
-                SearchBook();
-            else if (choice == "6")
-                ViewFines();
-            else if (choice == "7")
-                break;
+            switch (choice)
+            {
+                case "1":
+                    DisplayBooks();
+                    break;
+                case "2":
+                    DisplayReservedBooks();
+                    break;
+                case "3":
+                    ReserveBook();
+                    break;
+                case "4":
+                    ReturnBook();
+                    break;
+                case "5":
+                    SearchBook();
+                    break;
+                case "6":
+                    ViewFines();
+                    break;
+                case "7":
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
         }
     }
 
     static void DisplayBooks()
     {
         Console.WriteLine("\n===== Available Books =====");
-        var books = libraryService.GetAvailableBooks();
-
-        if (books.Count == 0)
-        {
-            Console.WriteLine("No available books.");
-            return;
-        }
-
-        foreach (var book in books)
-        {
-            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author}");
-        }
+        PrintBooks(libraryService.GetAvailableBooks(), "No available books.");
     }
 
     static void DisplayReservedBooks()
@@ -139,4 +140,20 @@ class Program
         }
         Console.WriteLine($"\nTotal Fines: ${totalFines}");
     }
-}
+        static void PrintBook(Book book)
+        {
+            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author}");
+        }
+
+        static void PrintBooks(List<Book> books, string emptyMessage)
+        {
+            if (books.Count == 0)
+            {
+                Console.WriteLine(emptyMessage);
+                return;
+            }
+
+            foreach (var book in books)
+                PrintBook(book);
+        }
+    }

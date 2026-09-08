@@ -5,31 +5,27 @@ namespace LibraryApp1.BusinessLogic
     public class LibraryService : ILibraryService
     {
         private readonly IBookRepository repository;
-        private List<Book> books;
-        private const decimal FinePerDay = 1;
-        private const int LoanPeriodDays = 14;
 
         public LibraryService(IBookRepository bookRepository)
         {
             repository = bookRepository;
-            books = repository.LoadBooks();
         }
 
         public List<Book> GetAvailableBooks()
-            => books.FindAll(b => b.IsAvailable);
+            => repository.LoadBooks().FindAll(b => b.IsAvailable);
 
         public List<Book> GetReservedBooks()
-            => books.FindAll(b => !b.IsAvailable);
+            => repository.LoadBooks().FindAll(b => !b.IsAvailable);
 
         public List<Book> GetBooksWithFines()
-            => books.FindAll(b => b.Fine > 0);
+            => repository.LoadBooks().FindAll(b => b.Fine > 0);
 
         public List<Book> SearchBook(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
                 return new List<Book>();
 
-            return books.FindAll(b =>
+            return repository.LoadBooks().FindAll(b =>
                 b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -38,6 +34,7 @@ namespace LibraryApp1.BusinessLogic
             if (string.IsNullOrWhiteSpace(borrowerName))
                 return "Borrower name cannot be empty.";
 
+            var books = repository.LoadBooks();
             var book = books.Find(b => b.Id == id);
 
             if (book == null)
@@ -57,6 +54,7 @@ namespace LibraryApp1.BusinessLogic
 
         public string ReturnBook(int id)
         {
+            var books = repository.LoadBooks();
             var book = books.Find(b => b.Id == id);
 
             if (book == null)
@@ -66,7 +64,6 @@ namespace LibraryApp1.BusinessLogic
                 return "Book is already available.";
 
             book.Fine = CalculateFine(book.DueDate, book.GetFinePerDay());
-
             book.IsAvailable = true;
             book.BorrowerName = "";
 

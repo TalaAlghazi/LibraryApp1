@@ -11,31 +11,24 @@ namespace LibraryApp1.BusinessLogic
             repository = bookRepository;
         }
 
-        public List<Book> GetAvailableBooks()
-            => repository.LoadBooks().FindAll(b => b.IsAvailable);
+        public List<Book> GetAvailableBooks(int pageNumber, int pageSize)
+            => repository.GetAll(pageNumber, pageSize, isAvailable: true);
 
-        public List<Book> GetReservedBooks()
-            => repository.LoadBooks().FindAll(b => !b.IsAvailable);
+        public List<Book> GetReservedBooks(int pageNumber, int pageSize)
+            => repository.GetAll(pageNumber, pageSize, isAvailable: false);
 
-        public List<Book> GetBooksWithFines()
-            => repository.LoadBooks().FindAll(b => b.Fine > 0);
+        public List<Book> GetBooksWithFines(int pageNumber, int pageSize)
+            => repository.GetAll(pageNumber, pageSize, hasFine: true);
 
-        public List<Book> SearchBook(string title)
-        {
-            if (string.IsNullOrWhiteSpace(title))
-                return new List<Book>();
-
-            return repository.LoadBooks().FindAll(b =>
-                b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        }
+        public List<Book> SearchBook(string title, int pageNumber, int pageSize)
+            => repository.GetAll(pageNumber, pageSize, titleContains: title);
 
         public string ReserveBook(int id, string borrowerName)
         {
             if (string.IsNullOrWhiteSpace(borrowerName))
                 return "Borrower name cannot be empty.";
 
-            var books = repository.LoadBooks();
-            var book = books.Find(b => b.Id == id);
+            var book = repository.GetById(id);
 
             if (book == null)
                 return "Book not found.";
@@ -48,14 +41,13 @@ namespace LibraryApp1.BusinessLogic
             book.DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays());
             book.Fine = 0;
 
-            repository.SaveBooks(books);
+            repository.Update(book);
             return $"Book reserved successfully! Due date: {book.DueDate:d}";
         }
 
         public string ReturnBook(int id)
         {
-            var books = repository.LoadBooks();
-            var book = books.Find(b => b.Id == id);
+            var book = repository.GetById(id);
 
             if (book == null)
                 return "Book not found.";
@@ -67,7 +59,7 @@ namespace LibraryApp1.BusinessLogic
             book.IsAvailable = true;
             book.BorrowerName = "";
 
-            repository.SaveBooks(books);
+            repository.Update(book);
 
             return book.Fine > 0
                 ? $"Book returned late. Fine: ${book.Fine}"

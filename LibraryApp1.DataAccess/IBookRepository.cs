@@ -2,7 +2,17 @@
 {
     public interface IBookRepository
     {
-        List<Book> LoadBooks();
-        void SaveBooks(List<Book> books);
+        Book? GetById(int id);
+
+        List<Book> GetAll(
+            int pageNumber,
+            int pageSize,
+            bool? isAvailable = null,
+            bool? hasFine = null,
+            string? titleContains = null);
+
+        void Add(Book book);
+        void Update(Book book);
+        void Delete(int id);
     }
 }

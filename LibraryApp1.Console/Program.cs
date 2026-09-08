@@ -6,6 +6,8 @@ class Program
     static IBookRepository repository = new FileBookRepository();
     static ILibraryService libraryService = new LibraryService(repository);
 
+    const int PageSize = 5;
+
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -22,7 +24,7 @@ class Program
             Console.WriteLine("7. Exit");
             Console.Write("Choose: ");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             switch (choice)
             {
@@ -53,16 +55,25 @@ class Program
         }
     }
 
+    static int AskPageNumber()
+    {
+        Console.Write("Page number: ");
+        return int.TryParse(Console.ReadLine(), out int page) && page > 0 ? page : 1;
+    }
+
     static void DisplayBooks()
     {
-        Console.WriteLine("\n===== Available Books =====");
-        PrintBooks(libraryService.GetAvailableBooks(), "No available books.");
+        int page = AskPageNumber();
+        Console.WriteLine($"\n===== Available Books (page {page}) =====");
+        PrintBooks(libraryService.GetAvailableBooks(page, PageSize), "No available books.");
     }
 
     static void DisplayReservedBooks()
     {
-        Console.WriteLine("\n===== Reserved Books =====");
-        var books = libraryService.GetReservedBooks();
+        int page = AskPageNumber();
+        Console.WriteLine($"\n===== Reserved Books (page {page}) =====");
+
+        var books = libraryService.GetReservedBooks(page, PageSize);
 
         if (books.Count == 0)
         {
@@ -73,40 +84,40 @@ class Program
         foreach (var book in books)
         {
             string status = book.Fine > 0 ? $"Fine: ${book.Fine}" : "No Fine";
-            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author} (Reserved by: {book.BorrowerName}, Due: {book.DueDate.ToShortDateString()}, {status})");
+            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author} (Reserved by: {book.BorrowerName}) [{status}]");
         }
     }
 
     static void ReserveBook()
     {
         Console.Write("Enter Book ID: ");
-        if (int.TryParse(Console.ReadLine(), out int id))
-        {
-            Console.Write("Enter your name: ");
-            string borrowerName = Console.ReadLine();
+        if (!int.TryParse(Console.ReadLine(), out int id))
+            return;
 
-            string result = libraryService.ReserveBook(id, borrowerName);
-            Console.WriteLine(result);
-        }
+        Console.Write("Enter your name: ");
+        string? borrowerName = Console.ReadLine();
+
+        Console.WriteLine(libraryService.ReserveBook(id, borrowerName ?? ""));
     }
 
     static void ReturnBook()
     {
         Console.Write("Enter Book ID: ");
-        if (int.TryParse(Console.ReadLine(), out int id))
-        {
-            string result = libraryService.ReturnBook(id);
-            Console.WriteLine(result);
-        }
+        if (!int.TryParse(Console.ReadLine(), out int id))
+            return;
+
+        Console.WriteLine(libraryService.ReturnBook(id));
     }
 
     static void SearchBook()
     {
         Console.Write("Enter book title to search: ");
-        string searchTitle = Console.ReadLine();
+        string? searchTitle = Console.ReadLine();
 
-        Console.WriteLine("\n===== Search Results =====");
-        var results = libraryService.SearchBook(searchTitle);
+        int page = AskPageNumber();
+        Console.WriteLine($"\n===== Search Results (page {page}) =====");
+
+        var results = libraryService.SearchBook(searchTitle ?? "", page, PageSize);
 
         if (results.Count == 0)
         {
@@ -123,8 +134,10 @@ class Program
 
     static void ViewFines()
     {
-        Console.WriteLine("\n===== Outstanding Fines =====");
-        var books = libraryService.GetBooksWithFines();
+        int page = AskPageNumber();
+        Console.WriteLine($"\n===== Outstanding Fines (page {page}) =====");
+
+        var books = libraryService.GetBooksWithFines(page, PageSize);
 
         if (books.Count == 0)
         {
@@ -138,22 +151,24 @@ class Program
             Console.WriteLine($"{book.BorrowerName}: ${book.Fine} ({book.Title})");
             totalFines += book.Fine;
         }
+
         Console.WriteLine($"\nTotal Fines: ${totalFines}");
     }
-        static void PrintBook(Book book)
-        {
-            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author}");
-        }
 
-        static void PrintBooks(List<Book> books, string emptyMessage)
-        {
-            if (books.Count == 0)
-            {
-                Console.WriteLine(emptyMessage);
-                return;
-            }
-
-            foreach (var book in books)
-                PrintBook(book);
-        }
+    static void PrintBook(Book book)
+    {
+        Console.WriteLine($"{book.Id}. {book.Title} - {book.Author}");
     }
+
+    static void PrintBooks(List<Book> books, string emptyMessage)
+    {
+        if (books.Count == 0)
+        {
+            Console.WriteLine(emptyMessage);
+            return;
+        }
+
+        foreach (var book in books)
+            PrintBook(book);
+    }
+}

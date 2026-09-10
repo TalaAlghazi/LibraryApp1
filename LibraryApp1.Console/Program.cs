@@ -3,8 +3,9 @@ using LibraryApp1.DataAccess;
 
 class Program
 {
-    static IBookRepository repository = new FileBookRepository();
-    static ILibraryService libraryService = new LibraryService(repository);
+    static IBookRepository bookRepository = new FileBookRepository();
+    static IReservationRepository reservationRepository = new FileReservationRepository();
+    static ILibraryService libraryService = new LibraryService(bookRepository, reservationRepository);
 
     const int PageSize = 5;
 
@@ -15,8 +16,8 @@ class Program
         while (true)
         {
             Console.WriteLine("\n===== Library =====");
-            Console.WriteLine("1. Display Books");
-            Console.WriteLine("2. Display Reserved Books");
+            Console.WriteLine("1. Display Available Books");
+            Console.WriteLine("2. Display Active Reservations");
             Console.WriteLine("3. Reserve Book");
             Console.WriteLine("4. Return Book");
             Console.WriteLine("5. Search Book");
@@ -29,10 +30,10 @@ class Program
             switch (choice)
             {
                 case "1":
-                    DisplayBooks();
+                    DisplayAvailableBooks();
                     break;
                 case "2":
-                    DisplayReservedBooks();
+                    DisplayActiveReservations();
                     break;
                 case "3":
                     ReserveBook();
@@ -61,30 +62,48 @@ class Program
         return int.TryParse(Console.ReadLine(), out int page) && page > 0 ? page : 1;
     }
 
-    static void DisplayBooks()
+    static void DisplayAvailableBooks()
     {
         int page = AskPageNumber();
         Console.WriteLine($"\n===== Available Books (page {page}) =====");
-        PrintBooks(libraryService.GetAvailableBooks(page, PageSize), "No available books.");
-    }
 
-    static void DisplayReservedBooks()
-    {
-        int page = AskPageNumber();
-        Console.WriteLine($"\n===== Reserved Books (page {page}) =====");
+        var result = libraryService.GetAvailableBooks(page, PageSize);
 
-        var books = libraryService.GetReservedBooks(page, PageSize);
-
-        if (books.Count == 0)
+        if (!result.IsSuccess)
         {
-            Console.WriteLine("No reserved books.");
+            Console.WriteLine($"[{result.Code}] {result.Description}");
             return;
         }
 
-        foreach (var book in books)
+        PrintBooks(result.Data!, "No available books.");
+    }
+
+    static void DisplayActiveReservations()
+    {
+        int page = AskPageNumber();
+        Console.WriteLine($"\n===== Active Reservations (page {page}) =====");
+
+        var result = libraryService.GetActiveReservations(page, PageSize);
+
+        if (!result.IsSuccess)
         {
-            string status = book.Fine > 0 ? $"Fine: ${book.Fine}" : "No Fine";
-            Console.WriteLine($"{book.Id}. {book.Title} - {book.Author} (Reserved by: {book.BorrowerName}) [{status}]");
+            Console.WriteLine($"[{result.Code}] {result.Description}");
+            return;
+        }
+
+        var reservations = result.Data!;
+
+        if (reservations.Count == 0)
+        {
+            Console.WriteLine("No active reservations.");
+            return;
+        }
+
+        foreach (var r in reservations)
+        {
+            var book = bookRepository.GetById(r.BookId);
+            string title = book?.Title ?? "Unknown";
+            Console.WriteLine($"Book {r.BookId}: {title} - reserved by {r.BorrowerName} (due {r.DueDate:d})");
         }
     }
 
@@ -97,7 +116,11 @@ class Program
         Console.Write("Enter your name: ");
         string? borrowerName = Console.ReadLine();
 
-        Console.WriteLine(libraryService.ReserveBook(id, borrowerName ?? ""));
+        var result = libraryService.ReserveBook(id, borrowerName ?? "");
+
+        Console.WriteLine(result.IsSuccess
+            ? result.Description
+            : $"[{result.Code}] {result.Description}");
     }
 
     static void ReturnBook()
@@ -106,7 +129,11 @@ class Program
         if (!int.TryParse(Console.ReadLine(), out int id))
             return;
 
-        Console.WriteLine(libraryService.ReturnBook(id));
+        var result = libraryService.ReturnBook(id);
+
+        Console.WriteLine(result.IsSuccess
+            ? result.Description
+            : $"[{result.Code}] {result.Description}");
     }
 
     static void SearchBook()
@@ -117,15 +144,23 @@ class Program
         int page = AskPageNumber();
         Console.WriteLine($"\n===== Search Results (page {page}) =====");
 
-        var results = libraryService.SearchBook(searchTitle ?? "", page, PageSize);
+        var result = libraryService.SearchBook(searchTitle ?? "", page, PageSize);
 
-        if (results.Count == 0)
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"[{result.Code}] {result.Description}");
+            return;
+        }
+
+        var books = result.Data!;
+
+        if (books.Count == 0)
         {
             Console.WriteLine("No books found.");
             return;
         }
 
-        foreach (var book in results)
+        foreach (var book in books)
         {
             string status = book.IsAvailable ? "Available" : "Reserved";
             Console.WriteLine($"{book.Id}. {book.Title} - {book.Author} ({status})");
@@ -137,19 +172,29 @@ class Program
         int page = AskPageNumber();
         Console.WriteLine($"\n===== Outstanding Fines (page {page}) =====");
 
-        var books = libraryService.GetBooksWithFines(page, PageSize);
+        var result = libraryService.GetReservationsWithFines(page, PageSize);
 
-        if (books.Count == 0)
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"[{result.Code}] {result.Description}");
+            return;
+        }
+
+        var reservations = result.Data!;
+
+        if (reservations.Count == 0)
         {
             Console.WriteLine("No outstanding fines.");
             return;
         }
 
         decimal totalFines = 0;
-        foreach (var book in books)
+        foreach (var r in reservations)
         {
-            Console.WriteLine($"{book.BorrowerName}: ${book.Fine} ({book.Title})");
-            totalFines += book.Fine;
+            var book = bookRepository.GetById(r.BookId);
+            string title = book?.Title ?? "Unknown";
+            Console.WriteLine($"{r.BorrowerName}: ${r.Fine} ({title})");
+            totalFines += r.Fine;
         }
 
         Console.WriteLine($"\nTotal Fines: ${totalFines}");

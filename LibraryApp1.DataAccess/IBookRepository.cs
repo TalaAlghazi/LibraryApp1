@@ -8,7 +8,6 @@
             int pageNumber,
             int pageSize,
             bool? isAvailable = null,
-            bool? hasFine = null,
             string? titleContains = null);
 
         void Add(Book book);

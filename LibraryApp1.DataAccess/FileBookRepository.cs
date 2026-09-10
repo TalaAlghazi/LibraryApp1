@@ -35,16 +35,12 @@ namespace LibraryApp1.DataAccess
             int pageNumber,
             int pageSize,
             bool? isAvailable = null,
-            bool? hasFine = null,
             string? titleContains = null)
         {
             IEnumerable<Book> query = ReadFile();
 
             if (isAvailable.HasValue)
                 query = query.Where(b => b.IsAvailable == isAvailable.Value);
-
-            if (hasFine.HasValue)
-                query = query.Where(b => hasFine.Value ? b.Fine > 0 : b.Fine == 0);
 
             if (!string.IsNullOrWhiteSpace(titleContains))
                 query = query.Where(b =>

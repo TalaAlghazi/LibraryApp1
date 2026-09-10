@@ -4,66 +4,96 @@ namespace LibraryApp1.BusinessLogic
 {
     public class LibraryService : ILibraryService
     {
-        private readonly IBookRepository repository;
+        private readonly IBookRepository bookRepository;
+        private readonly IReservationRepository reservationRepository;
 
-        public LibraryService(IBookRepository bookRepository)
+        public LibraryService(
+            IBookRepository bookRepository,
+            IReservationRepository reservationRepository)
         {
-            repository = bookRepository;
+            this.bookRepository = bookRepository;
+            this.reservationRepository = reservationRepository;
         }
 
-        public List<Book> GetAvailableBooks(int pageNumber, int pageSize)
-            => repository.GetAll(pageNumber, pageSize, isAvailable: true);
+        public Result<List<Book>> GetAvailableBooks(int pageNumber, int pageSize)
+        {
+            var books = bookRepository.GetAll(pageNumber, pageSize, isAvailable: true);
+            return Result<List<Book>>.Success(books);
+        }
 
-        public List<Book> GetReservedBooks(int pageNumber, int pageSize)
-            => repository.GetAll(pageNumber, pageSize, isAvailable: false);
+        public Result<List<Book>> SearchBook(string title, int pageNumber, int pageSize)
+        {
+            var books = bookRepository.GetAll(pageNumber, pageSize, titleContains: title);
+            return Result<List<Book>>.Success(books);
+        }
 
-        public List<Book> GetBooksWithFines(int pageNumber, int pageSize)
-            => repository.GetAll(pageNumber, pageSize, hasFine: true);
+        public Result<List<Reservation>> GetActiveReservations(int pageNumber, int pageSize)
+        {
+            var reservations = reservationRepository.GetAll(pageNumber, pageSize, isActive: true);
+            return Result<List<Reservation>>.Success(reservations);
+        }
 
-        public List<Book> SearchBook(string title, int pageNumber, int pageSize)
-            => repository.GetAll(pageNumber, pageSize, titleContains: title);
+        public Result<List<Reservation>> GetReservationsWithFines(int pageNumber, int pageSize)
+        {
+            var reservations = reservationRepository.GetAll(pageNumber, pageSize, hasFine: true);
+            return Result<List<Reservation>>.Success(reservations);
+        }
 
-        public string ReserveBook(int id, string borrowerName)
+        public Result<Reservation> ReserveBook(int bookId, string borrowerName)
         {
             if (string.IsNullOrWhiteSpace(borrowerName))
-                return "Borrower name cannot be empty.";
+                return Result<Reservation>.Failure(400, "Borrower name cannot be empty.");
 
-            var book = repository.GetById(id);
+            var book = bookRepository.GetById(bookId);
 
             if (book == null)
-                return "Book not found.";
+                return Result<Reservation>.Failure(404, "Book not found.");
 
             if (!book.IsAvailable)
-                return "Book is already reserved.";
+                return Result<Reservation>.Failure(409, "Book is already reserved.");
+
+            var reservation = new Reservation
+            {
+                BookId = book.Id,
+                BorrowerName = borrowerName,
+                ReservedAt = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays())
+            };
+
+            reservationRepository.Add(reservation);
 
             book.IsAvailable = false;
-            book.BorrowerName = borrowerName;
-            book.DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays());
-            book.Fine = 0;
+            bookRepository.Update(book);
 
-            repository.Update(book);
-            return $"Book reserved successfully! Due date: {book.DueDate:d}";
+            return Result<Reservation>.Success(
+                reservation,
+                $"Book reserved successfully! Due date: {reservation.DueDate:d}");
         }
 
-        public string ReturnBook(int id)
+        public Result<Reservation> ReturnBook(int bookId)
         {
-            var book = repository.GetById(id);
+            var book = bookRepository.GetById(bookId);
 
             if (book == null)
-                return "Book not found.";
+                return Result<Reservation>.Failure(404, "Book not found.");
 
-            if (book.IsAvailable)
-                return "Book is already available.";
+            var reservation = reservationRepository.GetActiveByBookId(bookId);
 
-            book.Fine = CalculateFine(book.DueDate, book.GetFinePerDay());
+            if (reservation == null)
+                return Result<Reservation>.Failure(409, "Book is already available.");
+
+            reservation.ReturnedAt = DateTime.Now;
+            reservation.Fine = CalculateFine(reservation.DueDate, book.GetFinePerDay());
+            reservationRepository.Update(reservation);
+
             book.IsAvailable = true;
-            book.BorrowerName = "";
+            bookRepository.Update(book);
 
-            repository.Update(book);
-
-            return book.Fine > 0
-                ? $"Book returned late. Fine: ${book.Fine}"
+            string message = reservation.Fine > 0
+                ? $"Book returned late. Fine: ${reservation.Fine}"
                 : "Book returned on time. No fine.";
+
+            return Result<Reservation>.Success(reservation, message);
         }
 
         private static decimal CalculateFine(DateTime dueDate, decimal finePerDay)

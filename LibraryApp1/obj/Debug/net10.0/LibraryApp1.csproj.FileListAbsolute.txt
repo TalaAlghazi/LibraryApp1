@@ -1,4 +1,0 @@
-C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.AssemblyInfoInputs.cache
-C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.AssemblyInfo.cs
-C:\Users\talas\source\repos\LibraryApp1\LibraryApp1\obj\Debug\net10.0\LibraryApp1.csproj.CoreCompileInputs.cache

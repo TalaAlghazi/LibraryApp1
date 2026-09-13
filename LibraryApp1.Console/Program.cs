@@ -3,8 +3,9 @@ using LibraryApp1.DataAccess;
 
 class Program
 {
-    static IBookRepository bookRepository = new FileBookRepository();
-    static IReservationRepository reservationRepository = new FileReservationRepository();
+    static LibraryDbContext dbContext = new LibraryDbContext();
+    static IBookRepository bookRepository = new SqlBookRepository(dbContext);
+    static IReservationRepository reservationRepository = new SqlReservationRepository(dbContext);
     static ILibraryService libraryService = new LibraryService(bookRepository, reservationRepository);
 
     const int PageSize = 5;

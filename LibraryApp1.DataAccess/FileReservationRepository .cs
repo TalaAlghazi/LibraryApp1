@@ -56,6 +56,26 @@ namespace LibraryApp1.DataAccess
                 .Take(pageSize)
                 .ToList();
         }
+            public List<ReservationWithBookDto> GetAllWithBooks(
+             int pageNumber,
+             int pageSize,
+             bool? isActive = null,
+             bool? hasFine = null,
+            string? borrowerName = null)
+        {
+            return new List<ReservationWithBookDto>();
+        }
+
+        public List<ReservationWithBookDto> GetActiveWithBooks(int pageNumber, int pageSize)
+        {
+            return new List<ReservationWithBookDto>();
+        }
+
+        public List<ReservationWithBookDto> GetWithFinesAndBooks(int pageNumber, int pageSize)
+        {
+            return new List<ReservationWithBookDto>();
+        }
+        
 
         public void Add(Reservation reservation)
         {

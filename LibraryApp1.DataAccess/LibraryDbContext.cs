@@ -15,6 +15,11 @@ namespace LibraryApp1.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Reservation>()
+           .HasOne(r => r.Book)
+           .WithMany()
+           .HasForeignKey(r => r.BookId)
+           .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Book>().HasData(
                 new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", IsAvailable = true },
                 new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee", IsAvailable = true },

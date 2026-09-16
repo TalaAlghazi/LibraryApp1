@@ -81,18 +81,16 @@ namespace LibraryApp1.UI
         {
             try
             {
-                var books = new List<Book>()
+                var result = libraryService.GetAvailableBooks(1, 10);
+                if (result.IsSuccess)
                 {
-                    new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", IsAvailable = true },
-                    new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee", IsAvailable = true },
-                    new Book { Id = 3, Title = "1984", Author = "George Orwell", IsAvailable = true },
-                    new Book { Id = 4, Title = "Pride and Prejudice", Author = "Jane Austen", IsAvailable = true },
-                    new Book { Id = 5, Title = "The Catcher in the Rye", Author = "J.D. Salinger", IsAvailable = true },
-                    new Book { Id = 6, Title = "Brave New World", Author = "Aldous Huxley", IsAvailable = true },
-                    new Book { Id = 7, Title = "Jane Eyre", Author = "Charlotte Bronte", IsAvailable = true },
-                    new Book { Id = 8, Title = "Wuthering Heights", Author = "Emily Bronte", IsAvailable = true }
-                };
-                dataGridView1.DataSource = books;
+                    dataGridView1.DataSource = result.Data;
+
+                    dataGridView1.Columns[0].HeaderText = "ID";
+                    dataGridView1.Columns[1].HeaderText = "Title";
+                    dataGridView1.Columns[2].HeaderText = "Author";
+                    dataGridView1.Columns[3].HeaderText = "Status";
+                }
             }
             catch (Exception ex)
             {
@@ -152,6 +150,7 @@ namespace LibraryApp1.UI
             {
                 int bookId = (int)dataGridView1.SelectedRows[0].Cells[0].Value;
                 string borrowerName = PromptForInput("Enter borrower name:");
+                string borrowerPhone = PromptForInput("Enter borrower phone:");
 
                 if (string.IsNullOrWhiteSpace(borrowerName))
                     return;
@@ -160,6 +159,7 @@ namespace LibraryApp1.UI
                 {
                     BookId = bookId,
                     BorrowerName = borrowerName,
+                    BorrowerPhone = borrowerPhone,
                     ReservedAt = DateTime.Now,
                     DueDate = DateTime.Now.AddDays(14),
                     ReturnedAt = null,

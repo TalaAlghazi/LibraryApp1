@@ -51,7 +51,7 @@ class Program
                 case "7":
                     return;
                 default:
-                    Console.WriteLine("Invalid choice. Please try again.");
+                    Console.WriteLine("Invalid choice.");
                     break;
             }
         }
@@ -102,9 +102,7 @@ class Program
 
         foreach (var r in reservations)
         {
-            var book = bookRepository.GetById(r.BookId);
-            string title = book?.Title ?? "Unknown";
-            Console.WriteLine($"Book {r.BookId}: {title} - reserved by {r.BorrowerName} (due {r.DueDate:d})");
+            Console.WriteLine($"Book {r.BookId}: {r.BookTitle} - reserved by {r.BorrowerName} (due {r.DueDate:d})");
         }
     }
 
@@ -116,8 +114,10 @@ class Program
 
         Console.Write("Enter your name: ");
         string? borrowerName = Console.ReadLine();
+        Console.Write("Enter your phone: ");
+        string? borrowerPhone = Console.ReadLine();
 
-        var result = libraryService.ReserveBook(id, borrowerName ?? "");
+        var result = libraryService.ReserveBook(id, borrowerName ?? "", borrowerPhone ?? "");
 
         Console.WriteLine(result.IsSuccess
             ? result.Description
@@ -192,9 +192,7 @@ class Program
         decimal totalFines = 0;
         foreach (var r in reservations)
         {
-            var book = bookRepository.GetById(r.BookId);
-            string title = book?.Title ?? "Unknown";
-            Console.WriteLine($"{r.BorrowerName}: ${r.Fine} ({title})");
+            Console.WriteLine($"{r.BorrowerName}: ${r.Fine} ({r.BookTitle})");
             totalFines += r.Fine;
         }
 

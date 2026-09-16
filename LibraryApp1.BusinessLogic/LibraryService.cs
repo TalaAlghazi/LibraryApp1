@@ -27,19 +27,19 @@ namespace LibraryApp1.BusinessLogic
             return Result<List<Book>>.Success(books);
         }
 
-        public Result<List<Reservation>> GetActiveReservations(int pageNumber, int pageSize)
+        public Result<List<ReservationWithBookDto>> GetActiveReservations(int pageNumber, int pageSize)
         {
-            var reservations = reservationRepository.GetAll(pageNumber, pageSize, isActive: true);
-            return Result<List<Reservation>>.Success(reservations);
+            var reservations = reservationRepository.GetActiveWithBooks(pageNumber, pageSize);
+            return Result<List<ReservationWithBookDto>>.Success(reservations);
         }
 
-        public Result<List<Reservation>> GetReservationsWithFines(int pageNumber, int pageSize)
+        public Result<List<ReservationWithBookDto>> GetReservationsWithFines(int pageNumber, int pageSize)
         {
-            var reservations = reservationRepository.GetAll(pageNumber, pageSize, hasFine: true);
-            return Result<List<Reservation>>.Success(reservations);
+            var reservations = reservationRepository.GetWithFinesAndBooks(pageNumber, pageSize);
+            return Result<List<ReservationWithBookDto>>.Success(reservations);
         }
 
-        public Result<Reservation> ReserveBook(int bookId, string borrowerName)
+        public Result<Reservation> ReserveBook(int bookId, string borrowerName, string borrowerPhone)
         {
             if (string.IsNullOrWhiteSpace(borrowerName))
                 return Result<Reservation>.Failure(400, "Borrower name cannot be empty.");
@@ -56,6 +56,7 @@ namespace LibraryApp1.BusinessLogic
             {
                 BookId = book.Id,
                 BorrowerName = borrowerName,
+                BorrowerPhone = borrowerPhone,
                 ReservedAt = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays())
             };

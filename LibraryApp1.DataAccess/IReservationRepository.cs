@@ -6,6 +6,16 @@
 
         Reservation? GetActiveByBookId(int bookId);
 
+        List<ReservationWithBookDto> GetAllWithBooks(
+            int pageNumber,
+            int pageSize,
+            bool? isActive = null,
+            bool? hasFine = null,
+            string? borrowerName = null);
+
+        List<ReservationWithBookDto> GetActiveWithBooks(int pageNumber, int pageSize);
+        List<ReservationWithBookDto> GetWithFinesAndBooks(int pageNumber, int pageSize);
+
         List<Reservation> GetAll(
             int pageNumber,
             int pageSize,

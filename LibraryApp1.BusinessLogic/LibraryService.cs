@@ -26,6 +26,26 @@ namespace LibraryApp1.BusinessLogic
             var books = bookRepository.GetAll(pageNumber, pageSize, titleContains: title);
             return Result<List<Book>>.Success(books);
         }
+        public Result<string> UpdateReservation(int reservationId, DateTime newDueDate)
+        {
+            var reservation = reservationRepository.GetById(reservationId);
+            if (reservation == null)
+                return new Result<string> { IsSuccess = false, Description = "Not found" };
+
+            reservation.DueDate = newDueDate;
+            reservationRepository.Update(reservation);
+            return new Result<string> { IsSuccess = true, Data = "Updated successfully" };
+        }
+
+        public Result<string> DeleteReservation(int reservationId)
+        {
+            var reservation = reservationRepository.GetById(reservationId);
+            if (reservation == null)
+                return new Result<string> { IsSuccess = false, Description = "Not found" };
+
+            reservationRepository.Delete(reservationId);
+            return new Result<string> { IsSuccess = true, Data = "Deleted successfully" };
+        }
 
         public Result<List<ReservationWithBookDto>> GetActiveReservations(int pageNumber, int pageSize)
         {
@@ -39,18 +59,18 @@ namespace LibraryApp1.BusinessLogic
             return Result<List<ReservationWithBookDto>>.Success(reservations);
         }
 
-        public Result<Reservation> ReserveBook(int bookId, string borrowerName, string borrowerPhone)
+        public Result<string> ReserveBook(int bookId, string borrowerName, string borrowerPhone)
         {
             if (string.IsNullOrWhiteSpace(borrowerName))
-                return Result<Reservation>.Failure(400, "Borrower name cannot be empty.");
+                return Result<string>.Failure(400, "Borrower name cannot be empty.");
 
             var book = bookRepository.GetById(bookId);
 
             if (book == null)
-                return Result<Reservation>.Failure(404, "Book not found.");
+                return Result<string>.Failure(404, "Book not found.");
 
             if (!book.IsAvailable)
-                return Result<Reservation>.Failure(409, "Book is already reserved.");
+                return Result<string>.Failure(409, "Book is already reserved.");
 
             var reservation = new Reservation
             {
@@ -66,22 +86,21 @@ namespace LibraryApp1.BusinessLogic
             book.IsAvailable = false;
             bookRepository.Update(book);
 
-            return Result<Reservation>.Success(
-                reservation,
+            return Result<string>.Success(
                 $"Book reserved successfully! Due date: {reservation.DueDate:d}");
         }
 
-        public Result<Reservation> ReturnBook(int bookId)
+        public Result<string> ReturnBook(int bookId)
         {
             var book = bookRepository.GetById(bookId);
 
             if (book == null)
-                return Result<Reservation>.Failure(404, "Book not found.");
+                return Result<string>.Failure(404, "Book not found.");
 
             var reservation = reservationRepository.GetActiveByBookId(bookId);
 
             if (reservation == null)
-                return Result<Reservation>.Failure(409, "Book is already available.");
+                return Result<string>.Failure(409, "Book is already available.");
 
             reservation.ReturnedAt = DateTime.Now;
             reservation.Fine = CalculateFine(reservation.DueDate, book.GetFinePerDay());
@@ -94,7 +113,7 @@ namespace LibraryApp1.BusinessLogic
                 ? $"Book returned late. Fine: ${reservation.Fine}"
                 : "Book returned on time. No fine.";
 
-            return Result<Reservation>.Success(reservation, message);
+            return Result<string>.Success( message);
         }
 
         private static decimal CalculateFine(DateTime dueDate, decimal finePerDay)

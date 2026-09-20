@@ -10,7 +10,9 @@ namespace LibraryApp1.BusinessLogic
         Result<List<ReservationWithBookDto>> GetActiveReservations(int pageNumber, int pageSize);
         Result<List<ReservationWithBookDto>> GetReservationsWithFines(int pageNumber, int pageSize);
 
-        Result<Reservation> ReserveBook(int bookId, string borrowerName, string borrowerPhone);
-        Result<Reservation> ReturnBook(int bookId);
+        Result<string> ReserveBook(int bookId, string borrowerName, string borrowerPhone);
+        Result<string> ReturnBook(int bookId);
+        Result<string> UpdateReservation(int reservationId, DateTime newDueDate);
+        Result<string> DeleteReservation(int reservationId);
     }
 }

@@ -121,5 +121,45 @@ namespace LibraryApp1.BusinessLogic
             int daysLate = (int)(DateTime.Now - dueDate).TotalDays;
             return daysLate > 0 ? daysLate * finePerDay : 0;
         }
+        public Result<Book> AddBook(string title, string author, UserRole requesterRole)
+        {
+            if (requesterRole != UserRole.Admin)
+                return Result<Book>.Failure(403, "Only administrators can add books.");
+
+            if (string.IsNullOrWhiteSpace(title))
+                return Result<Book>.Failure(400, "Title is required.");
+
+            if (string.IsNullOrWhiteSpace(author))
+                return Result<Book>.Failure(400, "Author is required.");
+
+            var book = new Book
+            {
+                Title = title.Trim(),
+                Author = author.Trim(),
+                IsAvailable = true
+            };
+
+            bookRepository.Add(book);
+
+            return Result<Book>.Success(book, "Book added successfully.");
+        }
+
+        public Result<string> DeleteBook(int bookId, UserRole requesterRole)
+        {
+            if (requesterRole != UserRole.Admin)
+                return Result<string>.Failure(403, "Only administrators can delete books.");
+
+            var book = bookRepository.GetById(bookId);
+            if (book == null)
+                return Result<string>.Failure(404, "Book not found.");
+
+            var activeReservation = reservationRepository.GetActiveByBookId(bookId);
+            if (activeReservation != null)
+                return Result<string>.Failure(409, "Cannot delete a book that is currently reserved.");
+
+            bookRepository.Delete(bookId);
+
+            return Result<string>.Success("Book deleted successfully.");
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace LibraryApp1.BusinessLogic
         Result<string> ReturnBook(int bookId);
         Result<string> UpdateReservation(int reservationId, DateTime newDueDate);
         Result<string> DeleteReservation(int reservationId);
+        Result<Book> AddBook(string title, string author, UserRole requesterRole);
+        Result<string> DeleteBook(int bookId, UserRole requesterRole);
     }
 }

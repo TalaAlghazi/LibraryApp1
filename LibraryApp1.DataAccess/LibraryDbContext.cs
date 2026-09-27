@@ -7,10 +7,23 @@ namespace LibraryApp1.DataAccess
         public DbSet<Book> Books { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+        public LibraryDbContext()
+        {
+        }
+
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(
-                @"Server=(localdb)\MSSQLLocalDB;Database=LibraryApp1;Trusted_Connection=True;");
+            if (!options.IsConfigured)
+            {
+                options.UseSqlServer(
+                    @"Server=(localdb)\MSSQLLocalDB;Database=LibraryApp1;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +43,14 @@ namespace LibraryApp1.DataAccess
                 new Book { Id = 7, Title = "Jane Eyre", Author = "Charlotte Bronte", IsAvailable = true },
                 new Book { Id = 8, Title = "Wuthering Heights", Author = "Emily Bronte", IsAvailable = true }
             );
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(u => u.Username).IsRequired().HasMaxLength(50);
+                entity.Property(u => u.Email).IsRequired().HasMaxLength(256);
+                entity.Property(u => u.PasswordHash).IsRequired();
+                entity.HasIndex(u => u.Username).IsUnique();
+                entity.HasIndex(u => u.Email).IsUnique();
+            });
         }
     }
 }

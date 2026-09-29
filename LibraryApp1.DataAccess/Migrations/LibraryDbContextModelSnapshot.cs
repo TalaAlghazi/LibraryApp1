@@ -131,12 +131,23 @@ namespace Class_Library.Migrations
                     b.Property<DateTime>("ReservedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ReturnRequestedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("ReturnedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });
@@ -191,7 +202,13 @@ namespace Class_Library.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("LibraryApp1.DataAccess.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

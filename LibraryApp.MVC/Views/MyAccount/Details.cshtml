@@ -1,0 +1,67 @@
+﻿@using System.Security.Claims
+@using LibraryApp1.DataAccess
+@model ReservationWithBookDto
+@{
+    ViewData["Title"] = "Booking Details";
+    bool isOwner = User.FindFirst(ClaimTypes.NameIdentifier)?.Value == Model.UserId?.ToString();
+    string backAction = Model.Status == ReservationStatus.Returned ? "History" : "Bookings";
+}
+
+<a asp-action="@backAction" class="d-inline-block mb-3">&larr; Back</a>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">@Model.BookTitle</h3>
+        <p class="text-muted">@Model.BookAuthor</p>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Booking #</dt>
+            <dd class="col-sm-8">@Model.ReservationId</dd>
+
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">
+                @switch (Model.Status)
+                {
+                    case ReservationStatus.Active:
+                        <span class="badge bg-success">Active</span>
+                        break;
+                    case ReservationStatus.ReturnRequested:
+                        <span class="badge bg-warning text-dark">Return requested</span>
+                        break;
+                    default:
+                        <span class="badge bg-secondary">Returned</span>
+                        break;
+                }
+            </dd>
+
+            <dt class="col-sm-4">Booked on</dt>
+            <dd class="col-sm-8">@Model.ReservedAt.ToString("g")</dd>
+
+            <dt class="col-sm-4">Return by</dt>
+            <dd class="col-sm-8">@Model.DueDate.ToShortDateString()</dd>
+
+            @if (Model.ReturnRequestedAt != null)
+            {
+                <dt class="col-sm-4">Return requested</dt>
+                <dd class="col-sm-8">@Model.ReturnRequestedAt.Value.ToString("g")</dd>
+            }
+
+            @if (Model.ReturnedAt != null)
+            {
+                <dt class="col-sm-4">Returned on</dt>
+                <dd class="col-sm-8">@Model.ReturnedAt.Value.ToString("g")</dd>
+
+                <dt class="col-sm-4">Fine</dt>
+                <dd class="col-sm-8">@(Model.Fine > 0 ? Model.Fine.ToString("0.00") : "None")</dd>
+            }
+        </dl>
+
+        @if (isOwner && Model.Status == ReservationStatus.Active)
+        {
+            <form method="post" asp-action="RequestReturn" asp-route-id="@Model.ReservationId" class="mt-3"
+                  onsubmit="if (!confirm('Request a return for this book?')) return false; this.querySelector('button').disabled = true; return true;">
+                <button type="submit" class="btn btn-primary">Return this book</button>
+            </form>
+        }
+    </div>
+</div>

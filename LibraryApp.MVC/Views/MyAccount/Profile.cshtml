@@ -1,0 +1,59 @@
+﻿@model LibraryApp.MVC.Models.ProfileViewModel
+@{
+    ViewData["Title"] = "My Account";
+    ViewData["AccountTab"] = "Profile";
+}
+
+<partial name="_AccountNav" />
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Personal Information</h5>
+                <form method="post" asp-action="Profile">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" value="@Model.Username" class="form-control" required minlength="3" maxlength="50" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" value="@Model.Email" class="form-control" required />
+                    </div>
+                    <p class="small text-muted mb-3">
+                        Role: @Model.Role &middot; Member since @Model.MemberSince.ToShortDateString()
+                    </p>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Change Password</h5>
+                <form method="post" asp-action="ChangePassword">
+                    <div class="mb-3">
+                        <label class="form-label">Current password</label>
+                        <input type="password" name="currentPassword" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New password</label>
+                        <input type="password" name="newPassword" class="form-control" required minlength="8" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm new password</label>
+                        <input type="password" name="confirmPassword" class="form-control" required minlength="8" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Change password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

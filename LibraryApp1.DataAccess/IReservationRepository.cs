@@ -16,6 +16,10 @@
         List<ReservationWithBookDto> GetActiveWithBooks(int pageNumber, int pageSize);
         List<ReservationWithBookDto> GetWithFinesAndBooks(int pageNumber, int pageSize);
 
+        List<ReservationWithBookDto> GetByUser(int userId);
+        List<ReservationWithBookDto> GetByStatus(ReservationStatus status);
+        ReservationWithBookDto? GetDetails(int reservationId);
+
         List<Reservation> GetAll(
             int pageNumber,
             int pageSize,

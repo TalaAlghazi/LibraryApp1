@@ -75,7 +75,20 @@ namespace LibraryApp1.DataAccess
         {
             return new List<ReservationWithBookDto>();
         }
-        
+        public List<ReservationWithBookDto> GetByUser(int userId)
+        {
+            return new List<ReservationWithBookDto>();
+        }
+
+        public List<ReservationWithBookDto> GetByStatus(ReservationStatus status)
+        {
+            return new List<ReservationWithBookDto>();
+        }
+
+        public ReservationWithBookDto? GetDetails(int reservationId)
+        {
+            return null;
+        }
 
         public void Add(Reservation reservation)
         {

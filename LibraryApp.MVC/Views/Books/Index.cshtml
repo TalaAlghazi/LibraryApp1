@@ -1,0 +1,91 @@
+﻿@using LibraryApp1.DataAccess
+@model List<Book>
+@{
+    ViewData["Title"] = "Books";
+    bool isAdmin = User.IsInRole("Admin");
+}
+
+<h2 class="mb-3">Books</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form method="get" class="d-flex mb-3">
+    <input type="text" name="search" value="@ViewBag.Search" class="form-control me-2" placeholder="Search by title..." />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (isAdmin)
+{
+    <form method="post" asp-action="Add" class="row g-2 mb-4">
+        <div class="col-md-5"><input type="text" name="title" class="form-control" placeholder="Title" required /></div>
+        <div class="col-md-5"><input type="text" name="author" class="form-control" placeholder="Author" required /></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-success w-100">Add Book</button></div>
+    </form>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="text-center text-muted py-5 border rounded">No books found.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>
+                            @if (book.IsAvailable)
+                            {
+                                <span class="badge bg-success">Available</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Reserved</span>
+                            }
+                        </td>
+                        <td>
+                            @if (book.IsAvailable)
+                            {
+                                <form method="post" asp-action="Reserve" class="d-inline-flex"
+                                      onsubmit="if (!confirm('Reserve this book?')) return false; this.querySelector('button').disabled = true; return true;">
+                                    <input type="hidden" name="bookId" value="@book.Id" />
+                                    <input type="text" name="borrowerPhone" class="form-control form-control-sm me-1" placeholder="Phone (optional)" />
+                                    <button type="submit" class="btn btn-sm btn-primary">Reserve</button>
+                                </form>
+                            }
+
+                            @if (isAdmin)
+                            {
+                                <form method="post" asp-action="Delete" class="d-inline" onsubmit="return confirm('Delete this book?');">
+                                    <input type="hidden" name="bookId" value="@book.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

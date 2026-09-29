@@ -26,6 +26,7 @@ namespace LibraryApp1.BusinessLogic
             var books = bookRepository.GetAll(pageNumber, pageSize, titleContains: title);
             return Result<List<Book>>.Success(books);
         }
+
         public Result<string> UpdateReservation(int reservationId, DateTime newDueDate)
         {
             var reservation = reservationRepository.GetById(reservationId);
@@ -59,7 +60,7 @@ namespace LibraryApp1.BusinessLogic
             return Result<List<ReservationWithBookDto>>.Success(reservations);
         }
 
-        public Result<string> ReserveBook(int bookId, string borrowerName, string borrowerPhone)
+        public Result<string> ReserveBook(int bookId, string borrowerName, string borrowerPhone, int? userId = null)
         {
             if (string.IsNullOrWhiteSpace(borrowerName))
                 return Result<string>.Failure(400, "Borrower name cannot be empty.");
@@ -75,10 +76,12 @@ namespace LibraryApp1.BusinessLogic
             var reservation = new Reservation
             {
                 BookId = book.Id,
+                UserId = userId,
                 BorrowerName = borrowerName,
                 BorrowerPhone = borrowerPhone,
                 ReservedAt = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays())
+                DueDate = DateTime.Now.AddDays(book.GetLoanPeriodDays()),
+                Status = ReservationStatus.Active
             };
 
             reservationRepository.Add(reservation);
@@ -90,6 +93,7 @@ namespace LibraryApp1.BusinessLogic
                 $"Book reserved successfully! Due date: {reservation.DueDate:d}");
         }
 
+        
         public Result<string> ReturnBook(int bookId)
         {
             var book = bookRepository.GetById(bookId);
@@ -102,25 +106,9 @@ namespace LibraryApp1.BusinessLogic
             if (reservation == null)
                 return Result<string>.Failure(409, "Book is already available.");
 
-            reservation.ReturnedAt = DateTime.Now;
-            reservation.Fine = CalculateFine(reservation.DueDate, book.GetFinePerDay());
-            reservationRepository.Update(reservation);
-
-            book.IsAvailable = true;
-            bookRepository.Update(book);
-
-            string message = reservation.Fine > 0
-                ? $"Book returned late. Fine: ${reservation.Fine}"
-                : "Book returned on time. No fine.";
-
-            return Result<string>.Success( message);
+            return CompleteReturn(reservation, book);
         }
 
-        private static decimal CalculateFine(DateTime dueDate, decimal finePerDay)
-        {
-            int daysLate = (int)(DateTime.Now - dueDate).TotalDays;
-            return daysLate > 0 ? daysLate * finePerDay : 0;
-        }
         public Result<Book> AddBook(string title, string author, UserRole requesterRole)
         {
             if (requesterRole != UserRole.Admin)
@@ -160,6 +148,96 @@ namespace LibraryApp1.BusinessLogic
             bookRepository.Delete(bookId);
 
             return Result<string>.Success("Book deleted successfully.");
+        }
+
+        public Result<List<ReservationWithBookDto>> GetUserReservations(int userId)
+        {
+            return Result<List<ReservationWithBookDto>>.Success(reservationRepository.GetByUser(userId));
+        }
+
+        public Result<ReservationWithBookDto> GetReservationDetails(int reservationId, int userId, UserRole role)
+        {
+            var reservation = reservationRepository.GetDetails(reservationId);
+
+            
+            if (reservation == null || (role != UserRole.Admin && reservation.UserId != userId))
+                return Result<ReservationWithBookDto>.Failure(404, "Booking not found.");
+
+            return Result<ReservationWithBookDto>.Success(reservation);
+        }
+
+        public Result<string> RequestReturn(int reservationId, int userId)
+        {
+            var reservation = reservationRepository.GetById(reservationId);
+
+            if (reservation == null || reservation.UserId != userId)
+                return Result<string>.Failure(404, "Booking not found.");
+
+            if (reservation.Status == ReservationStatus.ReturnRequested)
+                return Result<string>.Failure(409, "A return has already been requested for this booking.");
+
+            if (reservation.Status == ReservationStatus.Returned)
+                return Result<string>.Failure(409, "This booking has already been returned.");
+
+            reservation.Status = ReservationStatus.ReturnRequested;
+            reservation.ReturnRequestedAt = DateTime.Now;
+            reservationRepository.Update(reservation);
+
+            return Result<string>.Success("Return requested. A staff member will confirm it once the book is received.");
+        }
+
+        public Result<List<ReservationWithBookDto>> GetPendingReturns(UserRole role)
+        {
+            if (role != UserRole.Admin)
+                return Result<List<ReservationWithBookDto>>.Failure(403, "Only administrators can view pending returns.");
+
+            return Result<List<ReservationWithBookDto>>.Success(
+                reservationRepository.GetByStatus(ReservationStatus.ReturnRequested));
+        }
+
+        public Result<string> ConfirmReturn(int reservationId, UserRole role)
+        {
+            if (role != UserRole.Admin)
+                return Result<string>.Failure(403, "Only administrators can confirm returns.");
+
+            var reservation = reservationRepository.GetById(reservationId);
+            if (reservation == null)
+                return Result<string>.Failure(404, "Booking not found.");
+
+            if (reservation.Status == ReservationStatus.Returned)
+                return Result<string>.Failure(409, "This booking has already been returned.");
+
+            var book = bookRepository.GetById(reservation.BookId);
+            if (book == null)
+                return Result<string>.Failure(404, "Book not found.");
+
+            return CompleteReturn(reservation, book);
+        }
+
+        private Result<string> CompleteReturn(Reservation reservation, Book book)
+        {
+            
+            var returnDate = reservation.ReturnRequestedAt ?? DateTime.Now;
+
+            reservation.ReturnedAt = DateTime.Now;
+            reservation.Fine = CalculateFine(reservation.DueDate, book.GetFinePerDay(), returnDate);
+            reservation.Status = ReservationStatus.Returned;
+            reservationRepository.Update(reservation);
+
+            book.IsAvailable = true;
+            bookRepository.Update(book);
+
+            string message = reservation.Fine > 0
+                ? $"Book returned late. Fine: ${reservation.Fine}"
+                : "Book returned on time. No fine.";
+
+            return Result<string>.Success(message);
+        }
+
+        private static decimal CalculateFine(DateTime dueDate, decimal finePerDay, DateTime returnDate)
+        {
+            int daysLate = (int)(returnDate - dueDate).TotalDays;
+            return daysLate > 0 ? daysLate * finePerDay : 0;
         }
     }
 }

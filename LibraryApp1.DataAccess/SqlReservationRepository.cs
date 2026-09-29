@@ -45,21 +45,11 @@ namespace LibraryApp1.DataAccess
                 query = query.Where(r => r.BorrowerName.Contains(borrowerName));
 
             return query
+                .OrderBy(r => r.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .AsEnumerable()
-                .Select(r => new ReservationWithBookDto
-                {
-                    ReservationId = r.Id,
-                    BookId = r.BookId,
-                    BookTitle = r.Book?.Title ?? "Unknown",
-                    BorrowerName = r.BorrowerName,
-                    BorrowerPhone = r.BorrowerPhone,
-                    ReservedAt = r.ReservedAt,
-                    DueDate = r.DueDate,
-                    ReturnedAt = r.ReturnedAt,
-                    Fine = r.Fine
-                })
+                .Select(ToDto)
                 .ToList();
         }
 
@@ -71,6 +61,38 @@ namespace LibraryApp1.DataAccess
         public List<ReservationWithBookDto> GetWithFinesAndBooks(int pageNumber, int pageSize)
         {
             return GetAllWithBooks(pageNumber, pageSize, hasFine: true);
+        }
+
+        public List<ReservationWithBookDto> GetByUser(int userId)
+        {
+            return context.Reservations
+                .Include(r => r.Book)
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.ReservedAt)
+                .AsEnumerable()
+                .Select(ToDto)
+                .ToList();
+        }
+
+        public List<ReservationWithBookDto> GetByStatus(ReservationStatus status)
+        {
+            return context.Reservations
+                .Include(r => r.Book)
+                .Where(r => r.Status == status)
+                .OrderBy(r => r.ReturnRequestedAt)
+                .AsEnumerable()
+                .Select(ToDto)
+                .ToList();
+        }
+
+        public ReservationWithBookDto? GetDetails(int reservationId)
+        {
+            return context.Reservations
+                .Include(r => r.Book)
+                .Where(r => r.Id == reservationId)
+                .AsEnumerable()
+                .Select(ToDto)
+                .FirstOrDefault();
         }
 
         public List<Reservation> GetAll(
@@ -121,5 +143,22 @@ namespace LibraryApp1.DataAccess
             context.Reservations.Remove(reservation);
             context.SaveChanges();
         }
+
+        private static ReservationWithBookDto ToDto(Reservation r) => new ReservationWithBookDto
+        {
+            ReservationId = r.Id,
+            BookId = r.BookId,
+            UserId = r.UserId,
+            BookTitle = r.Book?.Title ?? "Unknown",
+            BookAuthor = r.Book?.Author ?? "",
+            BorrowerName = r.BorrowerName,
+            BorrowerPhone = r.BorrowerPhone,
+            ReservedAt = r.ReservedAt,
+            DueDate = r.DueDate,
+            ReturnRequestedAt = r.ReturnRequestedAt,
+            ReturnedAt = r.ReturnedAt,
+            Fine = r.Fine,
+            Status = r.Status
+        };
     }
 }

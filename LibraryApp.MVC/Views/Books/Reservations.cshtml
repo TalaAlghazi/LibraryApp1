@@ -1,0 +1,71 @@
+﻿@using LibraryApp1.DataAccess
+@model List<ReservationWithBookDto>
+@{
+    ViewData["Title"] = "All Bookings";
+}
+
+<h2 class="mb-3">All Active Bookings</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="text-center text-muted py-5 border rounded">No active bookings.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Book</th>
+                    <th>Borrower</th>
+                    <th>Phone</th>
+                    <th>Due</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    bool requested = r.Status == ReservationStatus.ReturnRequested;
+                    <tr class="@(requested ? "table-warning" : "")">
+                        <td>@r.ReservationId</td>
+                        <td>@r.BookTitle</td>
+                        <td>@r.BorrowerName</td>
+                        <td>@r.BorrowerPhone</td>
+                        <td>@r.DueDate.ToShortDateString()</td>
+                        <td>
+                            @if (requested)
+                            {
+                                <span class="badge bg-warning text-dark">Return requested</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <form method="post" asp-action="ConfirmReturn" class="d-inline"
+                                  onsubmit="if (!confirm('Confirm this book has been received?')) return false; this.querySelector('button').disabled = true; return true;">
+                                <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                                <button type="submit" class="btn btn-sm @(requested ? "btn-success" : "btn-outline-secondary")">
+                                    @(requested ? "Confirm return" : "Mark returned")
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

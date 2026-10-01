@@ -56,7 +56,7 @@ else
                         </td>
                         <td class="text-end">
                             <form method="post" asp-action="ConfirmReturn" class="d-inline"
-                                  onsubmit="if (!confirm('Confirm this book has been received?')) return false; this.querySelector('button').disabled = true; return true;">
+                                  data-confirm="The book will be marked as returned and the booking moves to history." data-confirm-title="@(requested ? "Confirm return" : "Mark as returned")" data-confirm-ok="@(requested ? "Confirm return" : "Mark returned")">
                                 <input type="hidden" name="reservationId" value="@r.ReservationId" />
                                 <button type="submit" class="btn btn-sm @(requested ? "btn-success" : "btn-outline-secondary")">
                                     @(requested ? "Confirm return" : "Mark returned")

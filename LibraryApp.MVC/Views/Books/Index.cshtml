@@ -171,7 +171,7 @@
                         @if (book.IsAvailable)
                         {
                             <form method="post" asp-action="Reserve" class="book-reserve-form"
-                                  onsubmit="if (!confirm('Reserve this book?')) return false; this.querySelector('button[type=submit]').disabled = true; return true;">
+                                  data-confirm="Do you want to reserve &ldquo;@book.Title&rdquo;?" data-confirm-title="Reserve book" data-confirm-ok="Reserve">
                                 <input type="hidden" name="bookId" value="@book.Id" />
                                 <label for="phone-@book.Id" class="visually-hidden">Phone (optional)</label>
                                 <input id="phone-@book.Id" type="tel" name="borrowerPhone" class="form-control" placeholder="Phone (optional)" maxlength="20" />
@@ -185,7 +185,7 @@
 
                         @if (isAdmin)
                         {
-                            <form method="post" asp-action="Delete" class="text-center" onsubmit="return confirm('Delete this book?');">
+                            <form method="post" asp-action="Delete" class="text-center" data-confirm="&ldquo;@book.Title&rdquo; will be permanently removed from the library." data-confirm-title="Delete book?" data-confirm-ok="Delete" data-confirm-variant="danger">
                                 <input type="hidden" name="bookId" value="@book.Id" />
                                 <button type="submit" class="btn btn-link book-delete">Delete book</button>
                             </form>

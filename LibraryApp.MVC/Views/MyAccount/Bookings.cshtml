@@ -56,7 +56,7 @@ else
                             @if (r.Status == ReservationStatus.Active)
                             {
                                 <form method="post" asp-action="RequestReturn" asp-route-id="@r.ReservationId" class="d-inline"
-                                      onsubmit="if (!confirm('Request a return for this book?')) return false; this.querySelector('button').disabled = true; return true;">
+                                      data-confirm="An admin will confirm the return once the book is received." data-confirm-title="Return this book?" data-confirm-ok="Request return">
                                     <button type="submit" class="btn btn-sm btn-outline-primary">Return</button>
                                 </form>
                             }

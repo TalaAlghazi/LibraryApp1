@@ -1,31 +1,56 @@
 ﻿@{
     ViewData["Title"] = "Sign In";
+    ViewData["AuthArtTitle"] = "A world of stories awaits.";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <h2 class="mb-4">Sign In</h2>
+<div class="auth-shell">
+    <partial name="_AuthArt" />
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Error</div>
-        }
+    <div class="auth-form-side">
+        <div class="auth-form">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Sign in to your library account</p>
 
-        <form method="post" asp-action="Login">
-            @Html.AntiForgeryToken()
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Sign In</button>
-        </form>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+            }
 
-        <p class="text-center mt-3">
-            <a asp-action="Register">Create a new account</a>
-        </p>
+            <form method="post" asp-action="Login">
+                <div class="auth-field">
+                    <label for="login-username" class="visually-hidden">Username</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                    <input id="login-username" type="text" name="username" class="form-control" placeholder="Username"
+                           autocomplete="username" required autofocus />
+                </div>
+
+                <div class="auth-field">
+                    <label for="login-password" class="visually-hidden">Password</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                    <input id="login-password" type="password" name="password" class="form-control has-toggle" placeholder="Password"
+                           autocomplete="current-password" required />
+                    <button type="button" class="auth-toggle" data-toggle-password="login-password" aria-label="Show password" aria-pressed="false">
+                        <svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                        </svg>
+                        <svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <path d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-submit">Sign In</button>
+            </form>
+
+            <p class="auth-alt">New here? <a asp-action="Register">Create an account</a></p>
+        </div>
     </div>
 </div>

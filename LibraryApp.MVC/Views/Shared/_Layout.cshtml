@@ -1,70 +1,105 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    bool onAllBookings = currentController == "Books" && currentAction == "Reservations";
+    bool onBooks = currentController == "Books" && !onAllBookings;
+    bool onAccount = currentController == "MyAccount";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LibraryApp.MVC</title>
+    <title>@ViewData["Title"] - Library</title>
     <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LibraryApp.MVC.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LibraryApp.MVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md" aria-label="Main navigation">
+            <div class="container-xl">
+                <a class="site-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg class="site-brand-icon" viewBox="0 0 32 24" aria-hidden="true" focusable="false">
+                        <path d="M16 5.2C12.6 2.9 8 2.2 2.5 2.8v16.6c5.5-.6 10.1.1 13.5 2.4 3.4-2.3 8-3 13.5-2.4V2.8C24 2.2 19.4 2.9 16 5.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                        <path d="M16 5.2v16.6" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                    <span>Library</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav"
+                        aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Books" asp-action="Index">Books</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Books" asp-action="Reservations">Reservations</a>
-        </li>
-    }
-                       
-                        <ul class="navbar-nav">
-                            @if (User.Identity?.IsAuthenticated == true)
+
+                <div class="collapse navbar-collapse" id="siteNav">
+                    <ul class="navbar-nav site-nav me-auto">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(onBooks ? "active" : "")" asp-controller="Books" asp-action="Index">Books</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(onAccount ? "active" : "")" asp-controller="MyAccount" asp-action="Bookings">My Account</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <span class="nav-link text-muted">@User.Identity.Name</span>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    <a class="nav-link @(onAllBookings ? "active" : "")" asp-controller="Books" asp-action="Reservations">All Bookings</a>
                                 </li>
                             }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
-                                </li>
-                            }
-                        </ul>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav site-nav-user">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            var userName = string.IsNullOrEmpty(User.Identity.Name) ? "Account" : User.Identity.Name;
+                            var initial = char.ToUpperInvariant(userName[0]);
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle site-user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="site-avatar" aria-hidden="true">@initial</span>
+                                    <span class="site-user-name">@userName</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" asp-controller="MyAccount" asp-action="Bookings">My Bookings</a></li>
+                                    <li><a class="dropdown-item" asp-controller="MyAccount" asp-action="Profile">My Profile</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item site-logout" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Sign in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm site-nav-cta" asp-controller="Account" asp-action="Register">Create account</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - LibraryApp.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main role="main" class="site-main">
+        <div class="container-xl">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-xl site-footer-inner">
+            <span>&copy; @DateTime.Now.Year &middot; Library</span>
+            <a class="site-footer-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

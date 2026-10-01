@@ -3,89 +3,196 @@
 @{
     ViewData["Title"] = "Books";
     bool isAdmin = User.IsInRole("Admin");
+    string? search = ViewBag.Search as string;
+    bool isSearching = !string.IsNullOrWhiteSpace(search);
 }
 
-<h2 class="mb-3">Books</h2>
+<section class="lib-panel">
+    <div class="hero">
+        <div class="hero-text">
+            <h1 class="hero-title">Your next chapter starts here.</h1>
+            <p class="hero-subtitle">Discover, reserve, and enjoy your next read.</p>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+            <form method="get" asp-action="Index" class="hero-search" role="search">
+                <span class="hero-search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M20 20l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </span>
+                <label for="book-search" class="visually-hidden">Search books by title</label>
+                <input id="book-search" type="search" name="search" value="@search" placeholder="Search by title..." autocomplete="off" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
 
-<form method="get" class="d-flex mb-3">
-    <input type="text" name="search" value="@ViewBag.Search" class="form-control me-2" placeholder="Search by title..." />
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
+            @if (isSearching)
+            {
+                <p class="search-summary">Showing results for &ldquo;@search&rdquo; &middot; <a asp-action="Index">Clear search</a></p>
+            }
+        </div>
 
-@if (isAdmin)
-{
-    <form method="post" asp-action="Add" class="row g-2 mb-4">
-        <div class="col-md-5"><input type="text" name="title" class="form-control" placeholder="Title" required /></div>
-        <div class="col-md-5"><input type="text" name="author" class="form-control" placeholder="Author" required /></div>
-        <div class="col-md-2"><button type="submit" class="btn btn-success w-100">Add Book</button></div>
-    </form>
-}
+        <div class="hero-art" aria-hidden="true">
+            <svg class="hero-illustration" viewBox="0 0 460 280" focusable="false">
+                <ellipse cx="232" cy="264" rx="214" ry="10" fill="#173F32" opacity=".07" />
 
-@if (Model.Count == 0)
-{
-    <div class="text-center text-muted py-5 border rounded">No books found.</div>
-}
-else
-{
-    <div class="table-responsive">
-        <table class="table table-striped align-middle">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var book in Model)
-                {
-                    <tr>
-                        <td>@book.Id</td>
-                        <td>@book.Title</td>
-                        <td>@book.Author</td>
-                        <td>
+                <!-- Stacked books -->
+                <rect x="200" y="198" width="200" height="34" rx="4" fill="#1F4A3B" />
+                <rect x="372" y="202" width="26" height="26" rx="2" fill="#F3EAD3" />
+                <path d="M374 208h22M374 215h22M374 222h22" stroke="#D6C9A8" stroke-width="1" />
+                <rect x="212" y="202" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <rect x="218" y="202" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <text x="286" y="215" class="hero-spine" text-anchor="middle" dominant-baseline="central">Places</text>
+
+                <rect x="190" y="164" width="196" height="34" rx="4" fill="#2F5D49" />
+                <rect x="358" y="168" width="26" height="26" rx="2" fill="#F3EAD3" />
+                <path d="M360 174h22M360 181h22M360 188h22" stroke="#D6C9A8" stroke-width="1" />
+                <rect x="202" y="168" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <rect x="208" y="168" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <text x="274" y="181" class="hero-spine" text-anchor="middle" dominant-baseline="central">People</text>
+
+                <rect x="206" y="130" width="188" height="34" rx="4" fill="#173F32" />
+                <rect x="366" y="134" width="26" height="26" rx="2" fill="#F3EAD3" />
+                <path d="M368 140h22M368 147h22M368 154h22" stroke="#D6C9A8" stroke-width="1" />
+                <rect x="218" y="134" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <rect x="224" y="134" width="2" height="26" fill="#C9A96A" opacity=".8" />
+                <text x="286" y="147" class="hero-spine" text-anchor="middle" dominant-baseline="central">Ideas</text>
+
+                <g transform="rotate(-3 288 114)">
+                    <rect x="198" y="98" width="180" height="32" rx="4" fill="#3B6A54" />
+                    <rect x="350" y="102" width="26" height="24" rx="2" fill="#F3EAD3" />
+                    <path d="M352 108h22M352 114h22M352 120h22" stroke="#D6C9A8" stroke-width="1" />
+                    <rect x="210" y="102" width="2" height="24" fill="#C9A96A" opacity=".8" />
+                    <rect x="216" y="102" width="2" height="24" fill="#C9A96A" opacity=".8" />
+                    <text x="274" y="114" class="hero-spine" text-anchor="middle" dominant-baseline="central">Books</text>
+                </g>
+
+                <!-- Vase with sprigs -->
+                <path d="M425 190 C420 160 408 140 396 118 M425 190 C428 158 438 136 450 116 M425 190 C424 160 427 132 424 100"
+                      fill="none" stroke="#5E7F5A" stroke-width="1.6" stroke-linecap="round" />
+                <g fill="#6F8F66">
+                    <ellipse cx="414" cy="162" rx="7" ry="2.8" transform="rotate(-55 414 162)" />
+                    <ellipse cx="404" cy="140" rx="7" ry="2.8" transform="rotate(-45 404 140)" />
+                    <ellipse cx="433" cy="160" rx="7" ry="2.8" transform="rotate(55 433 160)" />
+                    <ellipse cx="443" cy="138" rx="7" ry="2.8" transform="rotate(45 443 138)" />
+                    <ellipse cx="419" cy="148" rx="6.5" ry="2.6" transform="rotate(-75 419 148)" />
+                    <ellipse cx="429" cy="126" rx="6.5" ry="2.6" transform="rotate(75 429 126)" />
+                </g>
+                <g fill="#F7F1E2" stroke="#C9B98F" stroke-width="1">
+                    <circle cx="396" cy="116" r="4.5" />
+                    <circle cx="450" cy="114" r="4.5" />
+                    <circle cx="424" cy="98" r="5" />
+                </g>
+                <g fill="#C9A96A">
+                    <circle cx="396" cy="116" r="1.5" />
+                    <circle cx="450" cy="114" r="1.5" />
+                    <circle cx="424" cy="98" r="1.6" />
+                </g>
+                <path d="M414 232 Q410 208 418 198 L418 190 L432 190 L432 198 Q440 208 436 232 Z" fill="#ECE5D3" stroke="#BFB292" stroke-width="1" />
+
+                <!-- Open book -->
+                <path d="M8 254 Q70 238 130 250 Q190 240 256 258 L254 264 Q190 247 130 257 Q70 245 8 261 Z" fill="#173F32" />
+                <path d="M14 250 Q70 234 130 246 L134 212 Q74 198 24 212 Z" fill="#FBF6EA" stroke="#CDBF9E" stroke-width="1" />
+                <path d="M130 246 Q190 236 250 254 L244 216 Q190 202 134 212 Z" fill="#F6EFDF" stroke="#CDBF9E" stroke-width="1" />
+                <path d="M36 220 Q82 212 124 220 M34 228 Q80 220 124 228 M32 236 Q78 228 124 236 M140 220 Q190 214 236 226 M140 228 Q190 222 238 234 M140 236 Q188 230 240 242"
+                      fill="none" stroke="#D9CDB0" stroke-width="1.2" stroke-linecap="round" />
+            </svg>
+            <p class="hero-quote">Good books,<br />brighter days.</p>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="status">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">@TempData["Error"]</div>
+    }
+
+    @if (isAdmin)
+    {
+        <div class="admin-bar">
+            <h2 class="admin-bar-title">Add a book</h2>
+            <form method="post" asp-action="Add" class="admin-bar-form">
+                <label for="new-book-title" class="visually-hidden">Title</label>
+                <input id="new-book-title" type="text" name="title" class="form-control" placeholder="Title" required maxlength="200" />
+                <label for="new-book-author" class="visually-hidden">Author</label>
+                <input id="new-book-author" type="text" name="author" class="form-control" placeholder="Author" required maxlength="200" />
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+        </div>
+    }
+
+    @if (Model.Count == 0)
+    {
+        <div class="empty-state">
+            <p class="empty-state-title">No books found</p>
+            @if (isSearching)
+            {
+                <p class="mb-0">Nothing matches &ldquo;@search&rdquo;. <a asp-action="Index">See all books</a></p>
+            }
+            else
+            {
+                <p class="mb-0">There are no available books right now. Please check back soon.</p>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="book-grid">
+            @foreach (var book in Model)
+            {
+                <article class="book-card">
+                    <div class="book-card-body">
+                        <div class="book-cover cover-tone-@(book.Id % 5)" aria-hidden="true">
+                            <span class="book-cover-title">@book.Title</span>
+                            <svg class="book-cover-mark" viewBox="0 0 24 24" focusable="false">
+                                <path d="M12 3c-3 4-3 8 0 12 3-4 3-8 0-12z" fill="none" stroke="currentColor" stroke-width="1.2" />
+                                <path d="M4 18c5 0 7-1 8-3 1 2 3 3 8 3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                            </svg>
+                            <span class="book-cover-author">@book.Author</span>
+                        </div>
+
+                        <div class="book-info">
+                            <h2 class="book-title">@book.Title</h2>
+                            <p class="book-author">@book.Author</p>
                             @if (book.IsAvailable)
                             {
-                                <span class="badge bg-success">Available</span>
+                                <span class="book-status is-available">Available</span>
                             }
                             else
                             {
-                                <span class="badge bg-secondary">Reserved</span>
+                                <span class="book-status is-reserved">Reserved</span>
                             }
-                        </td>
-                        <td>
-                            @if (book.IsAvailable)
-                            {
-                                <form method="post" asp-action="Reserve" class="d-inline-flex"
-                                      onsubmit="if (!confirm('Reserve this book?')) return false; this.querySelector('button').disabled = true; return true;">
-                                    <input type="hidden" name="bookId" value="@book.Id" />
-                                    <input type="text" name="borrowerPhone" class="form-control form-control-sm me-1" placeholder="Phone (optional)" />
-                                    <button type="submit" class="btn btn-sm btn-primary">Reserve</button>
-                                </form>
-                            }
+                        </div>
+                    </div>
 
-                            @if (isAdmin)
-                            {
-                                <form method="post" asp-action="Delete" class="d-inline" onsubmit="return confirm('Delete this book?');">
-                                    <input type="hidden" name="bookId" value="@book.Id" />
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
+                    <div class="book-card-actions">
+                        @if (book.IsAvailable)
+                        {
+                            <form method="post" asp-action="Reserve" class="book-reserve-form"
+                                  onsubmit="if (!confirm('Reserve this book?')) return false; this.querySelector('button[type=submit]').disabled = true; return true;">
+                                <input type="hidden" name="bookId" value="@book.Id" />
+                                <label for="phone-@book.Id" class="visually-hidden">Phone (optional)</label>
+                                <input id="phone-@book.Id" type="tel" name="borrowerPhone" class="form-control" placeholder="Phone (optional)" maxlength="20" />
+                                <button type="submit" class="btn btn-primary w-100">Reserve</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <p class="book-card-note">Currently reserved</p>
+                        }
+
+                        @if (isAdmin)
+                        {
+                            <form method="post" asp-action="Delete" class="text-center" onsubmit="return confirm('Delete this book?');">
+                                <input type="hidden" name="bookId" value="@book.Id" />
+                                <button type="submit" class="btn btn-link book-delete">Delete book</button>
+                            </form>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>

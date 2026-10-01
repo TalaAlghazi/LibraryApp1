@@ -1,39 +1,88 @@
 ﻿@{
     ViewData["Title"] = "Create Account";
+    ViewData["AuthArtTitle"] = "Your next story begins here.";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <h2 class="mb-4">Create Account</h2>
+<div class="auth-shell">
+    <partial name="_AuthArt" />
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Error</div>
-        }
+    <div class="auth-form-side">
+        <div class="auth-form">
+            <h1 class="auth-title">Create your account</h1>
+            <p class="auth-subtitle">Join the library to reserve and track your books</p>
 
-        <form method="post" asp-action="Register">
-            @Html.AntiForgeryToken()
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" name="confirmPassword" class="form-control" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Create Account</button>
-        </form>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+            }
 
-        <p class="text-center mt-3">
-            <a asp-action="Login">Already have an account? Sign in</a>
-        </p>
+            <form method="post" asp-action="Register">
+                <div class="auth-field">
+                    <label for="register-username" class="visually-hidden">Username</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                    <input id="register-username" type="text" name="username" class="form-control" placeholder="Username"
+                           autocomplete="username" required minlength="3" maxlength="50" autofocus />
+                </div>
+
+                <div class="auth-field">
+                    <label for="register-email" class="visually-hidden">Email</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                    </svg>
+                    <input id="register-email" type="email" name="email" class="form-control" placeholder="Email"
+                           autocomplete="email" required />
+                </div>
+
+                <div class="auth-field">
+                    <label for="register-password" class="visually-hidden">Password</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                    <input id="register-password" type="password" name="password" class="form-control has-toggle" placeholder="Password"
+                           autocomplete="new-password" required minlength="8" />
+                    <button type="button" class="auth-toggle" data-toggle-password="register-password" aria-label="Show password" aria-pressed="false">
+                        <svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                        </svg>
+                        <svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <path d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </div>
+                <p class="auth-hint">At least 8 characters, including a letter and a number.</p>
+
+                <div class="auth-field">
+                    <label for="register-confirm" class="visually-hidden">Confirm password</label>
+                    <svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+                    <input id="register-confirm" type="password" name="confirmPassword" class="form-control has-toggle" placeholder="Confirm password"
+                           autocomplete="new-password" required minlength="8" />
+                    <button type="button" class="auth-toggle" data-toggle-password="register-confirm" aria-label="Show password" aria-pressed="false">
+                        <svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                        </svg>
+                        <svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
+                            <path d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+            </form>
+
+            <p class="auth-alt">Already have an account? <a asp-action="Login">Sign in</a></p>
+        </div>
     </div>
 </div>

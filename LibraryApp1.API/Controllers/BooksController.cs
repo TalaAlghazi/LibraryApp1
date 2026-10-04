@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+﻿using LibraryApp1.API.Models;
 using LibraryApp1.BusinessLogic;
 using LibraryApp1.DataAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -18,82 +18,42 @@ namespace LibraryApp1.API.Controllers
             _libraryService = libraryService;
         }
 
-        [HttpGet("available")]
-        public IActionResult GetAvailableBooks(int pageNumber = 1, int pageSize = 5)
+        [HttpGet]
+        public IActionResult GetBooks(string? search, int pageNumber = 1, int pageSize = 20)
         {
-            var result = _libraryService.GetAvailableBooks(pageNumber, pageSize);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
+            pageNumber = Math.Max(1, pageNumber);
+            pageSize = Math.Clamp(pageSize, 1, 100);
+
+            var result = string.IsNullOrWhiteSpace(search)
+                ? _libraryService.GetAvailableBooks(pageNumber, pageSize)
+                : _libraryService.SearchBook(search, pageNumber, pageSize);
+
+            return result.IsSuccess ? Ok(result.Data) : this.Failure(result);
         }
 
-        [HttpGet("reservations")]
-        public IActionResult GetActiveReservations(int pageNumber = 1, int pageSize = 5)
+        [HttpPost("{bookId:int}/reserve")]
+        public IActionResult Reserve(int bookId, ReserveRequest request)
         {
-            var result = _libraryService.GetActiveReservations(pageNumber, pageSize);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
+            var result = _libraryService.ReserveBook(
+                bookId, User.Identity?.Name ?? "", request.BorrowerPhone ?? "", User.GetUserId());
 
-        [HttpGet("fines")]
-        public IActionResult GetFines(int pageNumber = 1, int pageSize = 5)
-        {
-            var result = _libraryService.GetReservationsWithFines(pageNumber, pageSize);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
-
-        [HttpPost("reserve")]
-        public IActionResult ReserveBook([FromQuery] int bookId, [FromQuery] string borrowerName, [FromQuery] string borrowerPhone)
-        {
-            var result = _libraryService.ReserveBook(bookId, borrowerName, borrowerPhone);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
-
-        [HttpPost("return")]
-        public IActionResult ReturnBook([FromQuery] int bookId)
-        {
-            var result = _libraryService.ReturnBook(bookId);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
-
-        [HttpGet("search")]
-        public IActionResult SearchBooks([FromQuery] string title, int pageNumber = 1, int pageSize = 5)
-        {
-            var result = _libraryService.SearchBook(title, pageNumber, pageSize);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
-
-        [HttpPut("reservations/{id}")]
-        public IActionResult UpdateReservation(int id, [FromQuery] DateTime newDueDate)
-        {
-            var result = _libraryService.UpdateReservation(id, newDueDate);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
-        }
-
-        [HttpDelete("reservations/{id}")]
-        public IActionResult DeleteReservation(int id)
-        {
-            var result = _libraryService.DeleteReservation(id);
-            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Description);
+            return result.IsSuccess ? Ok(new { message = result.Data }) : this.Failure(result);
         }
 
         [HttpPost]
         [Authorize(Roles = nameof(UserRole.Admin))]
-        public IActionResult AddBook([FromQuery] string title, [FromQuery] string author)
+        public IActionResult AddBook(AddBookRequest request)
         {
-            var result = _libraryService.AddBook(title, author, GetRequesterRole());
-            return result.IsSuccess ? Ok(result.Data) : StatusCode(result.Code, result.Description);
+            var result = _libraryService.AddBook(request.Title, request.Author, User.GetRole());
+            return result.IsSuccess ? Ok(result.Data) : this.Failure(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         [Authorize(Roles = nameof(UserRole.Admin))]
         public IActionResult DeleteBook(int id)
         {
-            var result = _libraryService.DeleteBook(id, GetRequesterRole());
-            return result.IsSuccess ? Ok(result.Data) : StatusCode(result.Code, result.Description);
-        }
-
-        private UserRole GetRequesterRole()
-        {
-            var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
-            return Enum.TryParse<UserRole>(roleClaim, out var role) ? role : UserRole.Librarian;
+            var result = _libraryService.DeleteBook(id, User.GetRole());
+            return result.IsSuccess ? Ok(new { message = result.Data }) : this.Failure(result);
         }
     }
 }

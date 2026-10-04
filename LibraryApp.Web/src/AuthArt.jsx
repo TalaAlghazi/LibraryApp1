@@ -1,0 +1,67 @@
+// Green illustrated panel shown beside the sign-in and registration forms.
+function AuthArt({ title }) {
+  return (
+    <aside className="auth-art">
+      <svg className="auth-art-leaf auth-art-leaf--top" viewBox="0 0 120 200" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="auth-fern" viewBox="0 0 120 200">
+            <path d="M60 196 C62 150 58 100 60 12" fill="none" stroke="currentColor" strokeWidth="2" />
+            <path d="M60 170 C40 166 26 154 20 138 C38 140 52 152 60 170 Z" />
+            <path d="M60 170 C80 166 94 154 100 138 C82 140 68 152 60 170 Z" />
+            <path d="M60 130 C42 126 30 114 26 100 C42 102 54 114 60 130 Z" />
+            <path d="M60 130 C78 126 90 114 94 100 C78 102 66 114 60 130 Z" />
+            <path d="M60 90 C46 86 36 76 33 64 C46 66 56 76 60 90 Z" />
+            <path d="M60 90 C74 86 84 76 87 64 C74 66 64 76 60 90 Z" />
+            <path d="M60 52 C50 48 44 40 42 30 C52 32 58 40 60 52 Z" />
+            <path d="M60 52 C70 48 76 40 78 30 C68 32 62 40 60 52 Z" />
+          </symbol>
+        </defs>
+        <use href="#auth-fern" fill="currentColor" />
+      </svg>
+      <svg className="auth-art-leaf auth-art-leaf--bottom" viewBox="0 0 120 200" aria-hidden="true" focusable="false">
+        <use href="#auth-fern" fill="currentColor" />
+      </svg>
+
+      <svg
+        className="auth-art-illustration"
+        viewBox="0 0 240 180"
+        aria-hidden="true"
+        focusable="false"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* Open book */}
+        <path d="M120 152 Q80 136 24 142 L34 106 Q86 100 120 116" />
+        <path d="M120 152 Q160 136 216 142 L206 106 Q154 100 120 116" />
+        <path d="M120 116 L120 152" />
+        <path d="M42 114 Q84 110 114 124 M40 122 Q84 118 114 132 M38 130 Q84 126 114 140" opacity=".7" />
+        <path d="M198 114 Q156 110 126 124 M200 122 Q156 118 126 132 M202 130 Q156 126 126 140" opacity=".7" />
+        {/* Growing sprig */}
+        <path d="M120 116 C118 90 124 70 118 40" />
+        <path d="M119 92 C104 88 96 78 94 70 C106 72 116 80 119 92 Z" />
+        <path d="M121 80 C136 76 144 66 146 58 C134 60 124 68 121 80 Z" />
+        <path d="M119 62 C108 58 102 50 101 43 C110 45 117 52 119 62 Z" />
+        <path d="M120 50 C130 46 135 40 136 34 C128 36 122 42 120 50 Z" />
+        <path d="M120 100 C136 96 150 86 158 74" />
+        <path d="M152 80 C158 78 163 74 165 68 C159 68 154 72 152 80 Z" />
+        {/* Sparkles */}
+        <g fill="currentColor" stroke="none">
+          <circle cx="86" cy="42" r="1.8" />
+          <circle cx="152" cy="30" r="1.6" />
+          <circle cx="172" cy="52" r="1.8" />
+          <circle cx="74" cy="64" r="1.4" />
+          <circle cx="100" cy="24" r="1.3" />
+        </g>
+        <path d="M160 40 v8 M156 44 h8" />
+      </svg>
+
+      <h2 className="auth-art-title">{title}</h2>
+      <span className="auth-art-rule" aria-hidden="true"></span>
+    </aside>
+  )
+}
+
+export default AuthArt

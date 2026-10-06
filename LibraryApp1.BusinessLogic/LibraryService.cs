@@ -23,7 +23,8 @@ namespace LibraryApp1.BusinessLogic
 
         public Result<List<Book>> SearchBook(string title, int pageNumber, int pageSize)
         {
-            var books = bookRepository.GetAll(pageNumber, pageSize, titleContains: title);
+            // Search follows the same rule as the book list: reserved books are not offered.
+            var books = bookRepository.GetAll(pageNumber, pageSize, isAvailable: true, titleContains: title);
             return Result<List<Book>>.Success(books);
         }
 

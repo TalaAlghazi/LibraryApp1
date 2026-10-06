@@ -1274,3 +1274,64 @@ input::placeholder {
     padding: 2rem 1.25rem 2.5rem;
   }
 }
+
+/* Staff page */
+.staff-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.staff-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.staff-list li:last-child {
+  border-bottom: 0;
+}
+
+/* Reserve popup */
+.dialog-form {
+  max-width: 440px;
+  text-align: left;
+}
+
+.dialog-form h2,
+.dialog-form > .muted {
+  text-align: center;
+}
+
+.dialog-form label {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dialog-form input {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fffefa;
+  color: var(--ink);
+}
+
+.dialog-form input:focus {
+  outline: none;
+  border-color: #9db5a8;
+  box-shadow: 0 0 0 0.2rem rgba(23, 63, 50, 0.16);
+}
+
+.dialog-form .hint {
+  margin: -0.2rem 0 1.1rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}

@@ -1,4 +1,4 @@
-﻿using LibraryApp1.DataAccess;
+using LibraryApp1.DataAccess;
 
 namespace LibraryApp1.BusinessLogic
 {
@@ -23,5 +23,11 @@ namespace LibraryApp1.BusinessLogic
         Result<string> RequestReturn(int reservationId, int userId);
         Result<List<ReservationWithBookDto>> GetPendingReturns(UserRole role);
         Result<string> ConfirmReturn(int reservationId, UserRole role);
+
+        Result<string> RequestReservation(int bookId, int userId, string borrowerName, string borrowerPhone);
+        Result<string> ReserveForCustomer(int bookId, string borrowerName, string borrowerPhone, int? customerUserId, UserRole requesterRole);
+        Result<List<ReservationWithBookDto>> GetPendingRequests(UserRole role);
+        Result<string> HandOverReservation(int reservationId, UserRole role);
+        Result<string> RejectReservation(int reservationId, UserRole role);
     }
 }

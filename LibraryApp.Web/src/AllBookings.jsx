@@ -3,6 +3,7 @@ import { api } from './api'
 import { formatDate, statusInfo } from './bookingHelpers'
 import ConfirmDialog from './ConfirmDialog'
 
+// Return requests first, then by due date.
 function sortBookings(list) {
   return [...list].sort((a, b) => {
     const ra = a.status === 'ReturnRequested' ? 0 : 1
@@ -12,7 +13,8 @@ function sortBookings(list) {
 }
 
 function loadActive() {
-  return api('/reservations?pageSize=200').then(sortBookings)
+  // Pending requests have their own page, so only books that are out are listed here.
+  return api('/reservations?pageSize=200').then((list) => sortBookings(list.filter((b) => b.status !== 'Pending')))
 }
 
 function AllBookings() {

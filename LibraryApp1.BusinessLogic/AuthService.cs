@@ -18,37 +18,45 @@ namespace LibraryApp1.BusinessLogic
             this.userRepository = userRepository;
         }
 
+        // Public sign-up always creates a customer; staff accounts are created by an admin.
         public Result<AuthenticatedUser> Register(string username, string email, string password, string confirmPassword)
         {
-            username = (username ?? "").Trim();
-            email = (email ?? "").Trim();
-            password ??= "";
+            return CreateUser(username, email, password, confirmPassword, UserRole.Customer, "Account created successfully.");
+        }
 
-            var error = ValidateUsername(username) ?? ValidateEmail(email) ?? ValidateNewPassword(password, confirmPassword);
-            if (error != null)
-                return Result<AuthenticatedUser>.Failure(400, error);
+        public Result<AuthenticatedUser> CreateLibrarian(string username, string email, string password, string confirmPassword, UserRole requesterRole)
+        {
+            if (requesterRole != UserRole.Admin)
+                return Result<AuthenticatedUser>.Failure(403, "Only administrators can create librarian accounts.");
 
-            if (userRepository.GetByUsername(username) != null)
-                return Result<AuthenticatedUser>.Failure(409, "That username is already taken.");
+            return CreateUser(username, email, password, confirmPassword, UserRole.Librarian, "Librarian account created successfully.");
+        }
 
-            if (userRepository.GetByEmail(email) != null)
-                return Result<AuthenticatedUser>.Failure(409, "An account with that email already exists.");
+        public Result<List<AuthenticatedUser>> GetLibrarians(UserRole requesterRole)
+        {
+            if (requesterRole != UserRole.Admin)
+                return Result<List<AuthenticatedUser>>.Failure(403, "Only administrators can view staff accounts.");
 
-            var role = userRepository.Count() == 0 ? UserRole.Admin : UserRole.Librarian;
+            var librarians = userRepository.GetByRole(UserRole.Librarian)
+                .Select(ToAuthenticatedUser)
+                .ToList();
 
-            var user = new User
-            {
-                Username = username,
-                Email = email,
-                PasswordHash = PasswordHasher.Hash(password),
-                Role = role,
-                CreatedAt = DateTime.Now,
-                IsActive = true
-            };
+            return Result<List<AuthenticatedUser>>.Success(librarians);
+        }
 
-            userRepository.Add(user);
+        // Runs at startup: creates the administrator from configuration when none exists yet.
+        public Result<string> EnsureAdminExists(string username, string email, string password)
+        {
+            if (userRepository.AnyWithRole(UserRole.Admin))
+                return Result<string>.Success("An administrator account already exists.");
 
-            return Result<AuthenticatedUser>.Success(ToAuthenticatedUser(user), "Account created successfully.");
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                return Result<string>.Failure(400, "SeedAdmin settings are missing, so no administrator was created.");
+
+            var result = CreateUser(username, email, password, password, UserRole.Admin, "");
+            return result.IsSuccess
+                ? Result<string>.Success($"Administrator '{result.Data!.Username}' created.")
+                : Result<string>.Failure(result.Code, result.Description);
         }
 
         public Result<AuthenticatedUser> Login(string username, string password)
@@ -112,6 +120,37 @@ namespace LibraryApp1.BusinessLogic
             userRepository.Update(user);
 
             return Result<string>.Success("Password changed successfully.");
+        }
+
+        private Result<AuthenticatedUser> CreateUser(string username, string email, string password, string confirmPassword, UserRole role, string successMessage)
+        {
+            username = (username ?? "").Trim();
+            email = (email ?? "").Trim();
+            password ??= "";
+
+            var error = ValidateUsername(username) ?? ValidateEmail(email) ?? ValidateNewPassword(password, confirmPassword);
+            if (error != null)
+                return Result<AuthenticatedUser>.Failure(400, error);
+
+            if (userRepository.GetByUsername(username) != null)
+                return Result<AuthenticatedUser>.Failure(409, "That username is already taken.");
+
+            if (userRepository.GetByEmail(email) != null)
+                return Result<AuthenticatedUser>.Failure(409, "An account with that email already exists.");
+
+            var user = new User
+            {
+                Username = username,
+                Email = email,
+                PasswordHash = PasswordHasher.Hash(password),
+                Role = role,
+                CreatedAt = DateTime.Now,
+                IsActive = true
+            };
+
+            userRepository.Add(user);
+
+            return Result<AuthenticatedUser>.Success(ToAuthenticatedUser(user), successMessage);
         }
 
         private static string? ValidateUsername(string username)

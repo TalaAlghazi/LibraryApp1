@@ -49,6 +49,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Create the administrator on first run. Credentials come from user secrets, never from source code.
+using (var scope = app.Services.CreateScope())
+{
+    var seed = builder.Configuration.GetSection("SeedAdmin");
+    var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+    var seedResult = authService.EnsureAdminExists(seed["Username"] ?? "", seed["Email"] ?? "", seed["Password"] ?? "");
+
+    if (!seedResult.IsSuccess)
+        app.Logger.LogWarning("Administrator was not created: {Reason}", seedResult.Description);
+}
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

@@ -37,8 +37,8 @@ function MyBookings({ mode }) {
       <h1 className="page-title">{isHistory ? 'Booking history' : 'My bookings'}</h1>
       <p className="muted">
         {isHistory
-          ? 'Books you have returned.'
-          : 'Books you currently have. Request a return when you hand a book back.'}
+          ? 'Returned books and rejected requests.'
+          : 'Your requests and the books you have. Request a return when you hand a book back.'}
       </p>
 
       {message && (
@@ -48,7 +48,7 @@ function MyBookings({ mode }) {
       {loading ? (
         <p className="muted">Loading…</p>
       ) : bookings.length === 0 ? (
-        <p className="empty">{isHistory ? 'No returned books yet.' : 'You have no current bookings.'}</p>
+        <p className="empty">{isHistory ? 'Nothing here yet.' : 'You have no current bookings.'}</p>
       ) : (
         <div className="table-wrap">
           <table className="table">
@@ -56,7 +56,7 @@ function MyBookings({ mode }) {
               <tr>
                 <th>Book</th>
                 <th>Reserved</th>
-                <th>{isHistory ? 'Returned' : 'Due'}</th>
+                <th>{isHistory ? 'Closed' : 'Due'}</th>
                 {isHistory && <th>Fine</th>}
                 <th>Status</th>
                 {!isHistory && (
@@ -76,8 +76,10 @@ function MyBookings({ mode }) {
                       <div className="muted small">{b.bookAuthor}</div>
                     </td>
                     <td>{formatDate(b.reservedAt)}</td>
-                    <td>{formatDate(isHistory ? b.returnedAt : b.dueDate)}</td>
-                    {isHistory && <td>{b.fine > 0 ? `$${b.fine.toFixed(2)}` : 'None'}</td>}
+                    <td>
+                      {isHistory ? formatDate(b.returnedAt) : b.status === 'Pending' ? 'After pickup' : formatDate(b.dueDate)}
+                    </td>
+                    {isHistory && <td>{b.fine > 0 ? `$${b.fine.toFixed(2)}` : '—'}</td>}
                     <td>
                       <span className={`status ${info.className}`}>{info.label}</span>
                     </td>
@@ -88,7 +90,9 @@ function MyBookings({ mode }) {
                             Request return
                           </button>
                         ) : (
-                          <span className="muted small">Waiting for staff</span>
+                          <span className="muted small">
+                            {b.status === 'Pending' ? 'Collect at the library' : 'Waiting for staff'}
+                          </span>
                         )}
                       </td>
                     )}

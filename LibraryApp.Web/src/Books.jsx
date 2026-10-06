@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { api } from './api'
+import { isStaffRole } from './bookingHelpers'
 import ConfirmDialog from './ConfirmDialog'
 import HeroArt from './HeroArt'
 import { SearchIcon, SprigIcon } from './Icons'
+import ReserveDialog from './ReserveDialog'
 
 function fetchBooks(term) {
   const query = term ? `?search=${encodeURIComponent(term)}` : ''
@@ -11,13 +13,14 @@ function fetchBooks(term) {
 
 function Books({ user }) {
   const isAdmin = user.role === 'Admin'
+  const isStaff = isStaffRole(user.role)
 
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [activeSearch, setActiveSearch] = useState('')
   const [message, setMessage] = useState(null) // { type: 'success' | 'error', text }
-  const [phones, setPhones] = useState({}) // phone typed on each book card
+  const [reserving, setReserving] = useState(null) // book shown in the reserve popup
   const [newBook, setNewBook] = useState({ title: '', author: '' })
   const [pending, setPending] = useState(null) // action waiting for confirmation
 
@@ -67,18 +70,16 @@ function Books({ user }) {
     reload('')
   }
 
-  function askReserve(book) {
-    setPending({
-      title: 'Reserve book',
-      message: `Do you want to reserve “${book.title}”?`,
-      confirmLabel: 'Reserve',
-      successText: 'Book reserved.',
-      run: () =>
-        api(`/books/${book.id}/reserve`, {
-          method: 'POST',
-          body: { borrowerPhone: phones[book.id] ?? '' },
-        }),
-    })
+  // Customers send a request; staff reserve directly for the person at the desk.
+  async function submitReservation(form) {
+    const book = reserving
+    const result = isStaff
+      ? await api(`/books/${book.id}/reserve-for`, { method: 'POST', body: form })
+      : await api(`/books/${book.id}/reserve`, { method: 'POST', body: { borrowerPhone: form.borrowerPhone } })
+
+    setReserving(null)
+    setMessage({ type: 'success', text: result.message })
+    await reload()
   }
 
   function askDelete(book) {
@@ -217,19 +218,9 @@ function Books({ user }) {
 
               <div className="book-card-actions">
                 {book.isAvailable ? (
-                  <div className="book-reserve">
-                    <input
-                      type="tel"
-                      placeholder="Phone (optional)"
-                      aria-label={`Phone number for reserving ${book.title}`}
-                      maxLength={20}
-                      value={phones[book.id] ?? ''}
-                      onChange={(e) => setPhones({ ...phones, [book.id]: e.target.value })}
-                    />
-                    <button type="button" className="btn" onClick={() => askReserve(book)}>
-                      Reserve
-                    </button>
-                  </div>
+                  <button type="button" className="btn" onClick={() => setReserving(book)}>
+                    {isStaff ? 'Reserve for customer' : 'Request'}
+                  </button>
                 ) : (
                   <p className="book-card-note">Currently reserved</p>
                 )}
@@ -243,6 +234,15 @@ function Books({ user }) {
             </article>
           ))}
         </div>
+      )}
+
+      {reserving && (
+        <ReserveDialog
+          book={reserving}
+          staff={isStaff}
+          onSubmit={submitReservation}
+          onCancel={() => setReserving(null)}
+        />
       )}
 
       {pending && (

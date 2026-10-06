@@ -114,5 +114,15 @@ namespace LibraryApp1.DataAccess
             reservations.RemoveAll(r => r.Id == id);
             WriteFile(reservations);
         }
+        public bool TryAddWithBook(Reservation reservation, Book book)
+        {
+            Add(reservation);
+            return true;
+        }
+
+        public void UpdateWithBook(Reservation reservation, Book book)
+        {
+            Update(reservation);
+        }
     }
 }

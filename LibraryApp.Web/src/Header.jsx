@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { isStaffRole } from './bookingHelpers'
 import { BookIcon, MenuIcon } from './Icons'
 
 const accountPages = ['bookings', 'history', 'profile']
@@ -40,7 +41,13 @@ function Header({ user, ready, page, onNavigate, onLogout, onShowLogin, onShowRe
   const links = [
     { id: 'books', label: 'Books', active: page === 'books' },
     { id: 'bookings', label: 'My Account', active: accountPages.includes(page) },
-    ...(user?.role === 'Admin' ? [{ id: 'all', label: 'All Bookings', active: page === 'all' }] : []),
+    ...(isStaffRole(user?.role)
+      ? [
+          { id: 'requests', label: 'Requests', active: page === 'requests' },
+          { id: 'all', label: 'All Bookings', active: page === 'all' },
+        ]
+      : []),
+    ...(user?.role === 'Admin' ? [{ id: 'staff', label: 'Staff', active: page === 'staff' }] : []),
   ]
 
   return (

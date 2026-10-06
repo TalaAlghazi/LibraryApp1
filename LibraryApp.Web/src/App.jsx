@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import AllBookings from './AllBookings'
 import { api } from './api'
+import { isStaffRole } from './bookingHelpers'
 import Books from './Books'
 import Header from './Header'
 import Login from './Login'
 import MyBookings from './MyBookings'
 import Profile from './Profile'
 import Register from './Register'
+import Requests from './Requests'
+import Staff from './Staff'
 
 const accountTabs = [
   { id: 'bookings', label: 'Current Bookings' },
@@ -78,7 +81,9 @@ function App() {
           <MyBookings key={page} mode={page === 'history' ? 'history' : 'current'} />
         )}
         {page === 'profile' && <Profile onUserChange={setUser} />}
-        {page === 'all' && user.role === 'Admin' && <AllBookings />}
+        {page === 'requests' && isStaffRole(user.role) && <Requests />}
+        {page === 'all' && isStaffRole(user.role) && <AllBookings />}
+        {page === 'staff' && user.role === 'Admin' && <Staff />}
       </>
     )
   }

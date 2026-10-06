@@ -1,4 +1,4 @@
-﻿namespace LibraryApp1.DataAccess
+namespace LibraryApp1.DataAccess
 {
     public interface IReservationRepository
     {
@@ -30,5 +30,12 @@
         void Add(Reservation reservation);
         void Update(Reservation reservation);
         void Delete(int id);
+
+        // Saves a new reservation and the book's availability in one database call.
+        // Returns false when the book already has an open reservation.
+        bool TryAddWithBook(Reservation reservation, Book book);
+
+        // Saves a reservation change and the book's availability in one database call.
+        void UpdateWithBook(Reservation reservation, Book book);
     }
 }

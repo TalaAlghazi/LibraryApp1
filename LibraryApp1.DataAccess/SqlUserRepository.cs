@@ -30,6 +30,18 @@ namespace LibraryApp1.DataAccess
         {
             return context.Users.Count();
         }
+        public bool AnyWithRole(UserRole role)
+        {
+            return context.Users.Any(u => u.Role == role);
+        }
+
+        public List<User> GetByRole(UserRole role)
+        {
+            return context.Users
+                .Where(u => u.Role == role)
+                .OrderBy(u => u.Username)
+                .ToList();
+        }
 
         public void Add(User user)
         {

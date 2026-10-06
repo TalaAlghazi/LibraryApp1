@@ -43,6 +43,12 @@ namespace LibraryApp1.DataAccess
                 new Book { Id = 7, Title = "Jane Eyre", Author = "Charlotte Bronte", IsAvailable = true },
                 new Book { Id = 8, Title = "Wuthering Heights", Author = "Emily Bronte", IsAvailable = true }
             );
+            // A book can have only one open reservation (pending, out, or waiting for return).
+            // The database enforces it, so two people can never reserve the same copy at once.
+            modelBuilder.Entity<Reservation>()
+                .HasIndex(r => r.BookId)
+                .IsUnique()
+                .HasFilter("[ReturnedAt] IS NULL");
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(u => u.Username).IsRequired().HasMaxLength(50);

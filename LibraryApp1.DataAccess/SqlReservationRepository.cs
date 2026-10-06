@@ -1,9 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApp1.DataAccess
 {
     public class SqlReservationRepository : IReservationRepository
     {
+        // SQL Server error numbers for a duplicate key in a unique index or constraint.
+        private const int UniqueIndexViolation = 2601;
+        private const int UniqueConstraintViolation = 2627;
+
         private readonly LibraryDbContext context;
 
         public SqlReservationRepository(LibraryDbContext context)
@@ -141,6 +146,35 @@ namespace LibraryApp1.DataAccess
             if (reservation == null) return;
 
             context.Reservations.Remove(reservation);
+            context.SaveChanges();
+        }
+
+        public bool TryAddWithBook(Reservation reservation, Book book)
+        {
+            context.Reservations.Add(reservation);
+            context.Books.Update(book);
+
+            try
+            {
+                // One SaveChanges = one transaction: both rows are saved, or neither is.
+                context.SaveChanges();
+                return true;
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is SqlException { Number: UniqueIndexViolation or UniqueConstraintViolation })
+            {
+                // The unique index allows only one open reservation per book,
+                // so another request reserved this book first. Discard the unsaved changes.
+                context.ChangeTracker.Clear();
+                return false;
+            }
+        }
+
+        public void UpdateWithBook(Reservation reservation, Book book)
+        {
+            context.Reservations.Update(reservation);
+            context.Books.Update(book);
+
+            // One SaveChanges = one transaction: both rows are saved, or neither is.
             context.SaveChanges();
         }
 

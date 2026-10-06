@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using LibraryApp1.BusinessLogic;
 using LibraryApp1.DataAccess;
 using Microsoft.AspNetCore.Authentication;
@@ -9,11 +9,14 @@ namespace LibraryApp1.API
 {
     public static class ApiHelpers
     {
+        // Roles that run the library desk (used in [Authorize(Roles = ...)]).
+        public const string StaffRoles = nameof(UserRole.Admin) + "," + nameof(UserRole.Librarian);
+
         public static int GetUserId(this ClaimsPrincipal user) =>
             int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         public static UserRole GetRole(this ClaimsPrincipal user) =>
-            Enum.TryParse<UserRole>(user.FindFirst(ClaimTypes.Role)?.Value, out var role) ? role : UserRole.Librarian;
+            Enum.TryParse<UserRole>(user.FindFirst(ClaimTypes.Role)?.Value, out var role) ? role : UserRole.Customer;
 
         // Turns a failed service result into the matching HTTP status with a JSON message.
         public static IActionResult Failure<T>(this ControllerBase controller, Result<T> result) =>

@@ -31,11 +31,18 @@ namespace LibraryApp1.BusinessLogic
         {
             var reservation = reservationRepository.GetById(reservationId);
             if (reservation == null)
-                return new Result<string> { IsSuccess = false, Description = "Not found" };
+                return Result<string>.Failure(404, "Reservation not found.");
+
+            // Only books that are out with a customer have a real due date.
+            if (reservation.Status != ReservationStatus.Active && reservation.Status != ReservationStatus.ReturnRequested)
+                return Result<string>.Failure(409, "Only active bookings can have their due date changed.");
+
+            if (newDueDate.Date < reservation.ReservedAt.Date)
+                return Result<string>.Failure(400, "Due date cannot be before the reservation date.");
 
             reservation.DueDate = newDueDate;
             reservationRepository.Update(reservation);
-            return new Result<string> { IsSuccess = true, Data = "Updated successfully" };
+            return Result<string>.Success($"Due date updated to {newDueDate:d}.");
         }
 
         public Result<string> DeleteReservation(int reservationId)

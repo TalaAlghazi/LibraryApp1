@@ -3,6 +3,7 @@ using LibraryApp1.BusinessLogic;
 using LibraryApp1.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace LibraryApp1.API.Controllers
 {
@@ -46,6 +47,7 @@ namespace LibraryApp1.API.Controllers
         }
 
         [HttpPost("change-password")]
+        [EnableRateLimiting(ApiHelpers.AuthRateLimit)]
         public IActionResult ChangePassword(ChangePasswordRequest request)
         {
             var result = _authService.ChangePassword(

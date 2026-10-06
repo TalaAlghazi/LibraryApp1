@@ -1,11 +1,16 @@
+using System.Security.Claims;
+using System.Threading.RateLimiting;
+using LibraryApp1.API;
 using LibraryApp1.BusinessLogic;
 using LibraryApp1.DataAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
 builder.Services.AddDbContext<LibraryDbContext>(options =>
     options.UseSqlServer(
@@ -38,8 +43,33 @@ builder.Services
             return Task.CompletedTask;
         };
     });
-builder.Services.AddControllers()
-    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
+
+// Login, register and change-password allow a few attempts per minute to slow down password guessing.
+// Signed-in users are limited by account, everyone else by IP address. Limits are in appsettings.json.
+var rateLimit = builder.Configuration.GetSection("RateLimiting");
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = (context, cancellationToken) =>
+        new ValueTask(context.HttpContext.Response.WriteAsJsonAsync(
+            new { message = "Too many attempts. Please wait a minute and try again." }, cancellationToken));
+
+    options.AddPolicy(ApiHelpers.AuthRateLimit, httpContext =>
+    {
+        var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var partitionKey = userId != null
+            ? $"user:{userId}"
+            : $"ip:{httpContext.Connection.RemoteIpAddress}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = rateLimit.GetValue("AuthPermitLimit", 5),
+            Window = TimeSpan.FromSeconds(rateLimit.GetValue("AuthWindowSeconds", 60)),
+            QueueLimit = 0
+        });
+    });
+});
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -62,6 +92,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseRateLimiter();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

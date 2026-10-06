@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using LibraryApp1.API.Models;
 using LibraryApp1.BusinessLogic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace LibraryApp1.API.Controllers
 {
@@ -20,6 +21,7 @@ namespace LibraryApp1.API.Controllers
         }
 
         [HttpPost("register")]
+        [EnableRateLimiting(ApiHelpers.AuthRateLimit)]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             var result = _authService.Register(request.Username, request.Email, request.Password, request.ConfirmPassword);
@@ -31,6 +33,7 @@ namespace LibraryApp1.API.Controllers
         }
 
         [HttpPost("login")]
+        [EnableRateLimiting(ApiHelpers.AuthRateLimit)]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var result = _authService.Login(request.Username, request.Password);

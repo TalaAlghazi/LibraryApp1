@@ -12,6 +12,9 @@ namespace LibraryApp1.API
         // Roles that run the library desk (used in [Authorize(Roles = ...)]).
         public const string StaffRoles = nameof(UserRole.Admin) + "," + nameof(UserRole.Librarian);
 
+        // Rate limit policy for login, register and change-password (configured in ApiProgram.cs).
+        public const string AuthRateLimit = "auth";
+
         public static int GetUserId(this ClaimsPrincipal user) =>
             int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 

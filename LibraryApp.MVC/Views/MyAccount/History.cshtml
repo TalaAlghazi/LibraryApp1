@@ -1,4 +1,4 @@
-﻿@using LibraryApp1.DataAccess
+@using LibraryApp1.DataAccess
 @model List<ReservationWithBookDto>
 @{
     ViewData["Title"] = "My Account";
@@ -10,7 +10,7 @@
 @if (Model.Count == 0)
 {
     <div class="text-center text-muted py-5 border rounded">
-        <p class="mb-0">No past bookings yet. Returned books will appear here.</p>
+        <p class="mb-0">No past bookings yet. Returned books and rejected requests will appear here.</p>
     </div>
 }
 else
@@ -22,7 +22,7 @@ else
                     <th>Book</th>
                     <th>Booked On</th>
                     <th>Due</th>
-                    <th>Returned On</th>
+                    <th>Closed On</th>
                     <th>Fine</th>
                     <th>Status</th>
                 </tr>
@@ -30,17 +30,22 @@ else
             <tbody>
                 @foreach (var r in Model)
                 {
+                    bool rejected = r.Status == ReservationStatus.Rejected;
                     <tr>
                         <td>
                             <a asp-action="Details" asp-route-id="@r.ReservationId">@r.BookTitle</a>
                             <div class="small text-muted">@r.BookAuthor</div>
                         </td>
                         <td>@r.ReservedAt.ToShortDateString()</td>
-                        <td>@r.DueDate.ToShortDateString()</td>
+                        <td>@(rejected ? "—" : r.DueDate.ToShortDateString())</td>
                         <td>@r.ReturnedAt?.ToShortDateString()</td>
                         <td>@(r.Fine > 0 ? r.Fine.ToString("0.00") : "—")</td>
                         <td>
-                            @if (r.Fine > 0)
+                            @if (rejected)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                            else if (r.Fine > 0)
                             {
                                 <span class="badge bg-secondary">Returned late</span>
                             }

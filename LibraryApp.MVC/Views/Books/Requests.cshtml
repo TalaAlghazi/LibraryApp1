@@ -1,0 +1,70 @@
+@using LibraryApp1.DataAccess
+@model List<ReservationWithBookDto>
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<h2 class="mb-1">Pending Requests</h2>
+<p class="text-muted mb-3">Books customers asked for. Hand the book over to start the loan, or reject the request.</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="text-center text-muted py-5 border rounded">No pending requests.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Customer</th>
+                    <th>Requested</th>
+                    <th><span class="visually-hidden">Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>
+                            @r.BookTitle
+                            <div class="small text-muted">@r.BookAuthor</div>
+                        </td>
+                        <td>
+                            @r.BorrowerName
+                            @if (!string.IsNullOrEmpty(r.BorrowerPhone))
+                            {
+                                <div class="small text-muted">@r.BorrowerPhone</div>
+                            }
+                        </td>
+                        <td>@r.ReservedAt.ToShortDateString()</td>
+                        <td class="text-end text-nowrap">
+                            <form method="post" asp-action="HandOver" class="d-inline"
+                                  data-confirm="Give &ldquo;@r.BookTitle&rdquo; to @(r.BorrowerName). The loan period starts now."
+                                  data-confirm-title="Hand over book" data-confirm-ok="Hand over">
+                                <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                                <button type="submit" class="btn btn-sm btn-success">Hand over</button>
+                            </form>
+                            <form method="post" asp-action="Reject" class="d-inline"
+                                  data-confirm="&ldquo;@r.BookTitle&rdquo; will become available to other customers again."
+                                  data-confirm-title="Reject request?" data-confirm-ok="Reject" data-confirm-variant="danger">
+                                <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

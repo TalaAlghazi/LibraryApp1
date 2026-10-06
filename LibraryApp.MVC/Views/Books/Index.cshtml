@@ -1,8 +1,9 @@
-﻿@using LibraryApp1.DataAccess
+@using LibraryApp1.DataAccess
 @model List<Book>
 @{
     ViewData["Title"] = "Books";
     bool isAdmin = User.IsInRole("Admin");
+    bool isStaff = User.IsStaff();
     string? search = ViewBag.Search as string;
     bool isSearching = !string.IsNullOrWhiteSpace(search);
 }
@@ -170,13 +171,10 @@
                     <div class="book-card-actions">
                         @if (book.IsAvailable)
                         {
-                            <form method="post" asp-action="Reserve" class="book-reserve-form"
-                                  data-confirm="Do you want to reserve &ldquo;@book.Title&rdquo;?" data-confirm-title="Reserve book" data-confirm-ok="Reserve">
-                                <input type="hidden" name="bookId" value="@book.Id" />
-                                <label for="phone-@book.Id" class="visually-hidden">Phone (optional)</label>
-                                <input id="phone-@book.Id" type="tel" name="borrowerPhone" class="form-control" placeholder="Phone (optional)" maxlength="20" />
-                                <button type="submit" class="btn btn-primary w-100">Reserve</button>
-                            </form>
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#reserveModal"
+                                    data-book-id="@book.Id" data-book-title="@book.Title">
+                                @(isStaff ? "Reserve for customer" : "Request")
+                            </button>
                         }
                         else
                         {
@@ -196,3 +194,46 @@
         </div>
     }
 </section>
+
+<div class="modal fade confirm-modal reserve-modal" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" asp-action="@(isStaff ? "ReserveFor" : "Reserve")">
+                <div class="modal-body">
+                    <h2 class="confirm-modal-title" id="reserveModalTitle">@(isStaff ? "Reserve for a customer" : "Request this book")</h2>
+                    <p class="confirm-modal-message">&ldquo;<span class="reserve-modal-book"></span>&rdquo;</p>
+                    <input type="hidden" name="bookId" />
+
+                    @if (isStaff)
+                    {
+                        <div class="mb-3">
+                            <label for="reserve-name" class="form-label">Borrower name</label>
+                            <input id="reserve-name" type="text" name="borrowerName" class="form-control" required maxlength="100" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="reserve-phone" class="form-label">Phone</label>
+                            <input id="reserve-phone" type="tel" name="borrowerPhone" class="form-control" required maxlength="20" />
+                        </div>
+                        <div class="mb-1">
+                            <label for="reserve-customer" class="form-label">Customer username (optional)</label>
+                            <input id="reserve-customer" type="text" name="customerUsername" class="form-control" maxlength="50" />
+                            <p class="small text-muted mt-1 mb-0">Links the booking to the customer's account so they can see it.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-1">
+                            <label for="reserve-phone" class="form-label">Phone (optional)</label>
+                            <input id="reserve-phone" type="tel" name="borrowerPhone" class="form-control" maxlength="20" />
+                            <p class="small text-muted mt-1 mb-0">The book is held for you. Your loan starts when you collect it at the library.</p>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">@(isStaff ? "Reserve" : "Send request")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

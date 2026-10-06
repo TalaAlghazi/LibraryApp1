@@ -1012,3 +1012,34 @@ h1, h2, h3, h4, h5 {
         min-width: 120px;
         margin: 0;
     }
+/* Reserve popup (same look as the confirmation popup, with a form) */
+.reserve-modal .modal-body {
+    text-align: left;
+}
+
+    .reserve-modal .confirm-modal-title,
+    .reserve-modal .confirm-modal-message {
+        text-align: center;
+    }
+
+    .reserve-modal .confirm-modal-message {
+        margin-bottom: 1.25rem;
+    }
+
+/* Staff page */
+.staff-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .staff-list li {
+        display: flex;
+        flex-direction: column;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--lib-border);
+    }
+
+        .staff-list li:last-child {
+            border-bottom: 0;
+        }

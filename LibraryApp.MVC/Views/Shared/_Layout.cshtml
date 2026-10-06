@@ -1,9 +1,11 @@
-﻿@{
+@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
     bool onAllBookings = currentController == "Books" && currentAction == "Reservations";
-    bool onBooks = currentController == "Books" && !onAllBookings;
+    bool onRequests = currentController == "Books" && currentAction == "Requests";
+    bool onBooks = currentController == "Books" && !onAllBookings && !onRequests;
     bool onAccount = currentController == "MyAccount";
+    bool onStaff = currentController == "Staff";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -45,10 +47,19 @@
                             <li class="nav-item">
                                 <a class="nav-link @(onAccount ? "active" : "")" asp-controller="MyAccount" asp-action="Bookings">My Account</a>
                             </li>
+                            @if (User.IsStaff())
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(onRequests ? "active" : "")" asp-controller="Books" asp-action="Requests">Requests</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(onAllBookings ? "active" : "")" asp-controller="Books" asp-action="Reservations">All Bookings</a>
+                                </li>
+                            }
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link @(onAllBookings ? "active" : "")" asp-controller="Books" asp-action="Reservations">All Bookings</a>
+                                    <a class="nav-link @(onStaff ? "active" : "")" asp-controller="Staff" asp-action="Index">Staff</a>
                                 </li>
                             }
                         }

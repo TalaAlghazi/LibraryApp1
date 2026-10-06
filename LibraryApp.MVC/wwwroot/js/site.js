@@ -68,3 +68,37 @@
         pendingForm = null;
     });
 })();
+
+// Reserve popup: fill in the book from the card button that opened it.
+(function () {
+    const modalEl = document.getElementById('reserveModal');
+    if (!modalEl) {
+        return;
+    }
+
+    const form = modalEl.querySelector('form');
+
+    modalEl.addEventListener('show.bs.modal', function (event) {
+        const trigger = event.relatedTarget;
+        if (!trigger) {
+            return;
+        }
+
+        form.reset();
+        form.querySelector('[name=bookId]').value = trigger.dataset.bookId;
+        modalEl.querySelector('.reserve-modal-book').textContent = trigger.dataset.bookTitle;
+        form.querySelector('button[type=submit]').disabled = false;
+    });
+
+    modalEl.addEventListener('shown.bs.modal', function () {
+        const firstField = form.querySelector('input:not([type=hidden])');
+        if (firstField) {
+            firstField.focus();
+        }
+    });
+
+    // Stop a double click from sending the same request twice.
+    form.addEventListener('submit', function () {
+        form.querySelector('button[type=submit]').disabled = true;
+    });
+})();

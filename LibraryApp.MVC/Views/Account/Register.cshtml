@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Create Account";
     ViewData["AuthArtTitle"] = "Your next story begins here.";
 }
@@ -11,9 +11,12 @@
             <h1 class="auth-title">Create your account</h1>
             <p class="auth-subtitle">Join the library to reserve and track your books</p>
 
-            @if (ViewBag.Error != null)
+            @{
+                var error = ViewBag.Error as string ?? TempData["Error"] as string;
+            }
+            @if (error != null)
             {
-                <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+                <div class="alert alert-danger" role="alert">@error</div>
             }
 
             <form method="post" asp-action="Register">

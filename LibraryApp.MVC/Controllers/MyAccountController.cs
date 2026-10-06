@@ -1,11 +1,9 @@
-﻿using System.Security.Claims;
 using LibraryApp.MVC.Models;
 using LibraryApp1.BusinessLogic;
 using LibraryApp1.DataAccess;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace LibraryApp.MVC.Controllers
 {
@@ -31,7 +29,7 @@ namespace LibraryApp.MVC.Controllers
         [HttpGet]
         public IActionResult Profile()
         {
-            var user = _userRepository.GetById(CurrentUserId);
+            var user = _userRepository.GetById(User.GetUserId());
             if (user == null)
                 return RedirectToAction("Logout", "Account");
 
@@ -42,11 +40,11 @@ namespace LibraryApp.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(string username, string email)
         {
-            var result = _authService.UpdateProfile(CurrentUserId, username, email);
+            var result = _authService.UpdateProfile(User.GetUserId(), username, email);
 
             if (!result.IsSuccess)
             {
-                var user = _userRepository.GetById(CurrentUserId);
+                var user = _userRepository.GetById(User.GetUserId());
                 if (user == null)
                     return RedirectToAction("Logout", "Account");
 
@@ -54,37 +52,40 @@ namespace LibraryApp.MVC.Controllers
                 return View(ToProfile(username, email, user.Role, user.CreatedAt));
             }
 
-            await RefreshSignInAsync(result.Data!);
+            await HttpContext.SignInUserAsync(result.Data!);
             TempData["Success"] = result.Description;
             return RedirectToAction(nameof(Profile));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting(MvcHelpers.AuthRateLimit)]
         public IActionResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
         {
-            var result = _authService.ChangePassword(CurrentUserId, currentPassword, newPassword, confirmPassword);
+            var result = _authService.ChangePassword(User.GetUserId(), currentPassword, newPassword, confirmPassword);
             TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess ? result.Data : result.Description;
             return RedirectToAction(nameof(Profile));
         }
 
+        // Current bookings: pending requests, books out, and returns waiting for staff.
         public IActionResult Bookings()
         {
-            var all = _libraryService.GetUserReservations(CurrentUserId).Data ?? new List<ReservationWithBookDto>();
-            return View(all.Where(r => r.Status != ReservationStatus.Returned).ToList());
+            var all = _libraryService.GetUserReservations(User.GetUserId()).Data ?? new List<ReservationWithBookDto>();
+            return View(all.Where(r => !IsClosed(r.Status)).ToList());
         }
 
+        // Closed bookings: returned books and rejected requests.
         public IActionResult History()
         {
-            var all = _libraryService.GetUserReservations(CurrentUserId).Data ?? new List<ReservationWithBookDto>();
-            return View(all.Where(r => r.Status == ReservationStatus.Returned)
+            var all = _libraryService.GetUserReservations(User.GetUserId()).Data ?? new List<ReservationWithBookDto>();
+            return View(all.Where(r => IsClosed(r.Status))
                            .OrderByDescending(r => r.ReturnedAt)
                            .ToList());
         }
 
         public IActionResult Details(int id)
         {
-            var result = _libraryService.GetReservationDetails(id, CurrentUserId, CurrentRole);
+            var result = _libraryService.GetReservationDetails(id, User.GetUserId(), User.GetRole());
             if (!result.IsSuccess)
                 return NotFound();
 
@@ -95,15 +96,13 @@ namespace LibraryApp.MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RequestReturn(int id)
         {
-            var result = _libraryService.RequestReturn(id, CurrentUserId);
+            var result = _libraryService.RequestReturn(id, User.GetUserId());
             TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess ? result.Data : result.Description;
             return RedirectToAction(nameof(Bookings));
         }
 
-        private int CurrentUserId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-
-        private UserRole CurrentRole =>
-            Enum.TryParse<UserRole>(User.FindFirst(ClaimTypes.Role)?.Value, out var role) ? role : UserRole.Librarian;
+        private static bool IsClosed(ReservationStatus status) =>
+            status == ReservationStatus.Returned || status == ReservationStatus.Rejected;
 
         private static ProfileViewModel ToProfile(string username, string email, UserRole role, DateTime createdAt) => new ProfileViewModel
         {
@@ -112,20 +111,5 @@ namespace LibraryApp.MVC.Controllers
             Role = role.ToString(),
             MemberSince = createdAt
         };
-
-        
-        private async Task RefreshSignInAsync(AuthenticatedUser user)
-        {
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Username),
-                new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, user.Role.ToString())
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-        }
     }
 }

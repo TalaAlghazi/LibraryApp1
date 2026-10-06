@@ -1,4 +1,4 @@
-﻿@using LibraryApp1.DataAccess
+@using LibraryApp1.DataAccess
 @model List<ReservationWithBookDto>
 @{
     ViewData["Title"] = "My Account";
@@ -30,6 +30,7 @@ else
             <tbody>
                 @foreach (var r in Model)
                 {
+                    bool pending = r.Status == ReservationStatus.Pending;
                     bool overdue = r.Status == ReservationStatus.Active && r.DueDate < DateTime.Now;
                     <tr>
                         <td>
@@ -37,9 +38,13 @@ else
                             <div class="small text-muted">@r.BookAuthor</div>
                         </td>
                         <td>@r.ReservedAt.ToShortDateString()</td>
-                        <td>@r.DueDate.ToShortDateString()</td>
+                        <td>@(pending ? "After pickup" : r.DueDate.ToShortDateString())</td>
                         <td>
-                            @if (r.Status == ReservationStatus.ReturnRequested)
+                            @if (pending)
+                            {
+                                <span class="badge bg-warning text-dark">Awaiting pickup</span>
+                            }
+                            else if (r.Status == ReservationStatus.ReturnRequested)
                             {
                                 <span class="badge bg-warning text-dark">Return requested</span>
                             }
@@ -56,9 +61,13 @@ else
                             @if (r.Status == ReservationStatus.Active)
                             {
                                 <form method="post" asp-action="RequestReturn" asp-route-id="@r.ReservationId" class="d-inline"
-                                      data-confirm="An admin will confirm the return once the book is received." data-confirm-title="Return this book?" data-confirm-ok="Request return">
+                                      data-confirm="A librarian will confirm the return once the book is received." data-confirm-title="Return this book?" data-confirm-ok="Request return">
                                     <button type="submit" class="btn btn-sm btn-outline-primary">Return</button>
                                 </form>
+                            }
+                            else if (pending)
+                            {
+                                <span class="small text-muted">Collect at the library</span>
                             }
                             else
                             {
@@ -70,5 +79,5 @@ else
             </tbody>
         </table>
     </div>
-    <p class="small text-muted">After you request a return, the book stays on your account until a staff member confirms they received it.</p>
+    <p class="small text-muted">Requested books are held for you until you collect them. After you request a return, the book stays on your account until a staff member confirms they received it.</p>
 }

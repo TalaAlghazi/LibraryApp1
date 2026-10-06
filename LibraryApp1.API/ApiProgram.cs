@@ -29,6 +29,7 @@ builder.Services
         options.Cookie.Name = "LibraryApp1.Auth";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
 
@@ -78,6 +79,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    // Outside development: hide error details from users and tell browsers to always use HTTPS.
+    app.UseExceptionHandler(errorApp => errorApp.Run(context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        return context.Response.WriteAsJsonAsync(new { message = "Something went wrong. Please try again later." });
+    }));
+    app.UseHsts();
 }
 // Create the administrator on first run. Credentials come from user secrets, never from source code.
 using (var scope = app.Services.CreateScope())
